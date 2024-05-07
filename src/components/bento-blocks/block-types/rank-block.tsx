@@ -18,12 +18,16 @@ const tagValue = [
 export default function RankBlock() {
   const top = tagValue.sort((a, b) => b.value - a.value).slice(0, 3);
   return (
-    <button
-      onClick={() => {
-        console.log(top);
-      }}
-    >
-      test
-    </button>
+    <>
+      <h2 className="mb-4 text-xl font-bold">What you value the most</h2>
+      <ul className="space-y-1">
+        {top.map((val, idx) => (
+          <li>
+            <span className="mr-0.5 text-foreground/50">{idx + 1}.</span>{" "}
+            {val.tag}
+          </li>
+        ))}
+      </ul>
+    </>
   );
 }

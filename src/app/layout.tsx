@@ -1,5 +1,6 @@
 import "@/styles/globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata = {
   title: "Create T3 App",
@@ -16,6 +17,7 @@ export default function RootLayout({
     <html lang="en">
       <ClerkProvider>
         <body className="font-sans">{children}</body>
+        <Toaster />
       </ClerkProvider>
     </html>
   );

@@ -12,7 +12,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { MoodPicker } from "../mood-picker";
@@ -28,7 +28,7 @@ export default function JournalForm() {
     defaultValues: { mood: 4, dayDescription: "Today I am grateful for " },
   });
   const onSubmit = (data: z.infer<typeof formSchema>) => {
-    console.log(data);
+    toast("Todays journal saved");
   };
 
   return (
