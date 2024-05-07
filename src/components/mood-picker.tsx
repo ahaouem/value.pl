@@ -12,7 +12,7 @@ export function MoodPicker({
   const mood = ["😔", "😞", "😕", "😐", "😃", "😄", "😊"];
   return (
     <div
-      className={cn("flex w-full flex-row justify-evenly", className)}
+      className={cn("flex w-full flex-row justify-between", className)}
       {...props}
     >
       {mood.map((mood, idx) => (
@@ -20,8 +20,10 @@ export function MoodPicker({
           onClick={() => onChange(idx)}
           key={idx}
           className={cn(
-            "transform p-4 text-7xl opacity-70 transition-all hover:scale-110 hover:opacity-90",
-            idx === value && "scale-150 opacity-100 hover:scale-150",
+            "transform text-2xl transition-all hover:scale-105 md:text-4xl lg:text-6xl",
+            idx === value
+              ? "scale-125 hover:scale-125"
+              : "opacity-70 hover:opacity-90",
           )}
         >
           {mood}

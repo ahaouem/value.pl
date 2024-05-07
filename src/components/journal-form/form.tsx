@@ -15,7 +15,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { MoodPicker } from "../mood-picker/mood-picker";
+import { MoodPicker } from "../mood-picker";
 import { Textarea } from "../ui/textarea";
 
 const formSchema = z.object({
@@ -65,7 +65,7 @@ export default function JournalForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col justify-center space-y-8 p-8"
+        className="mt-3.5 flex flex-col justify-center space-y-6 p-2 sm:p-8"
       >
         <Card>
           <FormField

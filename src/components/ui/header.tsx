@@ -11,7 +11,7 @@ export default function HelloHeader() {
   if (!user || !session) return null;
 
   return (
-    <div className="flex items-center justify-between">
+    <div className="flex h-[4.125rem] items-center justify-between">
       <HeroHighlight>
         <motion.h1
           initial={{
@@ -26,7 +26,7 @@ export default function HelloHeader() {
             duration: 0.5,
             ease: [0.4, 0.0, 0.2, 1],
           }}
-          className="mx-auto max-w-4xl text-center text-2xl font-bold leading-relaxed text-neutral-700 dark:text-white md:text-4xl lg:text-5xl lg:leading-snug "
+          className="mx-auto max-w-4xl text-center text-2xl font-bold leading-relaxed text-neutral-700 dark:text-white md:text-4xl lg:text-5xl lg:leading-snug"
         >
           Hello, {user.firstName}
         </motion.h1>
