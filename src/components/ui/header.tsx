@@ -26,12 +26,12 @@ export default function HelloHeader() {
             duration: 0.5,
             ease: [0.4, 0.0, 0.2, 1],
           }}
-          className="mx-auto max-w-4xl text-center text-2xl font-bold leading-relaxed text-neutral-700 dark:text-white md:text-4xl lg:text-5xl lg:leading-snug"
+          className="mx-auto max-w-4xl text-center text-2xl font-bold leading-relaxed text-zinc-900 dark:text-white md:text-4xl lg:text-5xl lg:leading-snug"
         >
           Hello, {user.firstName}
         </motion.h1>
       </HeroHighlight>
-      <UserButton /> 
+      <UserButton />
     </div>
   );
 }

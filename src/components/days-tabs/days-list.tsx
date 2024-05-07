@@ -9,7 +9,7 @@ import { DatePicker } from "./date-picker";
 
 export default function DaysList({ firstDate }: { firstDate: Date }) {
   const [currentDateTab, setCurrentDateTab] = useState(
-    new Date().toISOString().slice(0, 10),
+    new Date().toDateString(),
   );
   const [currentWeekIndex, setCurrentWeekIndex] = useState(
     getCurrentWeekIndex({ date: currentDateTab, disabled: false } as DayType),
@@ -31,7 +31,7 @@ export default function DaysList({ firstDate }: { firstDate: Date }) {
 
       // Iterate through days of the week
       for (let i = 0; i < 7; i++) {
-        const dateString = currentDatePointer.toISOString().slice(0, 10);
+        const dateString = currentDatePointer.toDateString();
         const dayOfWeek = currentDatePointer.toLocaleString("en-US", {
           weekday: "long",
         });
@@ -65,10 +65,7 @@ export default function DaysList({ firstDate }: { firstDate: Date }) {
 
       if (week) {
         for (let j = 0; j < week.length; j++) {
-          if (
-            week[j] &&
-            week[j]?.date === currentDate.toISOString().slice(0, 10)
-          ) {
+          if (week[j] && week[j]?.date === currentDate.toDateString()) {
             return i;
           }
         }
@@ -94,10 +91,10 @@ export default function DaysList({ firstDate }: { firstDate: Date }) {
           ]}
           value={new Date(currentDateTab)}
           onChange={(date) => {
-            setCurrentDateTab(date.toISOString().slice(0, 10));
+            setCurrentDateTab(date.toDateString());
             setCurrentWeekIndex(
               getCurrentWeekIndex({
-                date: date.toISOString().slice(0, 10),
+                date: date.toDateString(),
                 disabled: false,
               } as DayType),
             );
@@ -109,15 +106,15 @@ export default function DaysList({ firstDate }: { firstDate: Date }) {
             },
           ]}
         />
-        {currentDateTab !== new Date().toISOString().slice(0, 10) && (
+        {currentDateTab !== new Date().toDateString() && (
           <Button
             variant="ghost"
             className="-mr-2 py-0"
             onClick={() => {
-              setCurrentDateTab(new Date().toISOString().slice(0, 10));
+              setCurrentDateTab(new Date().toDateString());
               setCurrentWeekIndex(
                 getCurrentWeekIndex({
-                  date: new Date().toISOString().slice(0, 10),
+                  date: new Date().toDateString(),
                   disabled: false,
                 } as DayType),
               );
