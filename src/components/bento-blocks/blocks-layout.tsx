@@ -23,7 +23,7 @@ export default function BlocksLayout() {
         <StreakBlock />
       </WobbleCard>
 
-      <WobbleCard containerClassName="col-span-1 lg:col-span-2 h-full bg-sky-200">
+      <WobbleCard containerClassName="col-span-1 lg:col-span-2 h-64 bg-sky-200">
         <GraphBlock />
       </WobbleCard>
 
