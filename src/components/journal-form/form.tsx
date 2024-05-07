@@ -17,6 +17,8 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { MoodPicker } from "../mood-picker";
 import { Textarea } from "../ui/textarea";
+import { generateObject } from "ai";
+import { openai } from "@ai-sdk/openai";
 
 const formSchema = z.object({
   mood: z.number(),
@@ -25,10 +27,22 @@ const formSchema = z.object({
 export default function JournalForm() {
   const form = useForm({
     resolver: zodResolver(formSchema),
-    defaultValues: { mood: 4, dayDescription: "Today I am grateful for " },
+    defaultValues: { mood: 3, dayDescription: "Today I am grateful for " },
   });
   const onSubmit = (data: z.infer<typeof formSchema>) => {
     toast("Todays journal saved");
+    const result = generateObject({
+      model: openai("gpt-4-turbo"),
+      schema: z.object({
+        listOfTopics: z.array(z.string()),
+        TP: z.array(z.string()),
+        TN: z.array(z.string()),
+        FP: z.array(z.string()),
+        FN: z.array(z.string()),
+      }),
+
+      prompt: `Analyze the text below and identify which topics from the specified list are mentioned or discussed. Also check which topics are True Positive, True Negative, False Positive or False Negative. List all topics from the given list that are clearly present in the text, based on direct references or implicit themes. \nHere is the list of topics: \nfamily, friends, school, work, studying, well spent time, hobby, passion, depressed, bad time, tiredness, time away from home, fresh air, nature,\nHere is the text to analyze: \n ${form.getValues().dayDescription}\n Please list the topics from the list that are present in the text. Just list of topics, without description, list of the TP TN FP FN topics also`,
+    });
   };
 
   return (
