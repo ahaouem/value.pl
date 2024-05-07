@@ -9,13 +9,13 @@ export function MoodPicker({
   value: number;
   onChange: (value: number) => void;
 } & React.HTMLAttributes<HTMLDivElement>) {
-  const mood = ["😔", "😞", "😕", "😐", "😃", "😄", "😊"];
+  const moods = ["😔", "😞", "😕", "😐", "😃", "😄", "😊"];
   return (
     <div
       className={cn("flex w-full flex-row justify-between", className)}
       {...props}
     >
-      {mood.map((mood, idx) => (
+      {moods.map((mood, idx) => (
         <button
           onClick={() => onChange(idx)}
           key={idx}
