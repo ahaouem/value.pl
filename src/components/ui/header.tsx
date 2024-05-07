@@ -31,7 +31,7 @@ export default function HelloHeader() {
           Hello, {user.firstName}
         </motion.h1>
       </HeroHighlight>
-      {user ? <UserButton /> : <SignInButton />}
+      <UserButton /> 
     </div>
   );
 }

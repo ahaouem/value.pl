@@ -31,36 +31,6 @@ export default function JournalForm() {
     console.log(data);
   };
 
-  const [rows, setRows] = useState<number>(20);
-  var newRows: number = rows;
-  const viewportHeight = window.innerHeight;
-  console.log(viewportHeight);
-  useEffect(() => {
-    function updateRows() {
-      const viewportHeight = window.innerHeight;
-      if (viewportHeight < 600) {
-        newRows = 4;
-      } else if (viewportHeight < 800) {
-        newRows = 8;
-      } else if (viewportHeight >= 1000) {
-        newRows = 20;
-      } else if (viewportHeight >= 1200) {
-        newRows = 24;
-      } else {
-        newRows = 28;
-      }
-      setRows(newRows);
-    }
-
-    updateRows();
-    window.addEventListener("resize", updateRows);
-    return () => {
-      window.removeEventListener("resize", updateRows);
-    };
-  }, []);
-
-  console.log(rows);
-
   return (
     <Form {...form}>
       <form
@@ -114,8 +84,7 @@ export default function JournalForm() {
                             );
                           }
                         }}
-                        rows={rows}
-                        className="h-full w-full resize-none"
+                        className="h-48 w-full resize-none sm:h-64 md:h-80 lg:h-96"
                       />
                     </div>
                   </FormControl>
