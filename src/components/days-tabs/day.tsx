@@ -18,7 +18,7 @@ export function Day({ day: { disabled, date } }: { day: DayType }) {
       className={cn(
         "flex w-full flex-col items-center justify-between gap-0.5 max-md:p-1",
         today.toDateString() === new Date(date).toDateString() &&
-          "ring-foreground/20 ring-1 data-[state=active]:ring-0",
+          "ring-1 ring-foreground/20 data-[state=active]:ring-0",
       )}
     >
       <div className="max-sm:text-xs">

@@ -4,7 +4,7 @@ export default function SuggestionBlock() {
   return (
     <>
       <div>
-        <h2 className="text-balance text-left text-base font-semibold tracking-[-0.015em] text-violet-900 md:text-xl lg:text-3xl">
+        <h2 className="text-balance text-left text-base font-semibold tracking-[-0.015em] text-violet-950 md:text-xl lg:text-3xl">
           Touch the grass and feel the earth
         </h2>
       </div>

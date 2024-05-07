@@ -19,15 +19,24 @@ export function DatePicker({
   disabled?: CalendarProps["disabled"];
 }) {
   const [open, setOpen] = useState(false);
+  const today = new Date();
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <div className="ml-2 flex w-fit items-center gap-x-2 font-semibold max-sm:my-2 max-sm:justify-center sm:mb-2 sm:text-lg">
-          <span>
-            {months[0]}
-            {months[0] !== months[1] ? ` - ${months[1]}` : ""}
-            {value ? `, ${value.getFullYear()}` : ""}
-          </span>
+          {today.toDateString() === value?.toDateString() ? (
+            <span>Today</span>
+          ) : yesterday.toDateString() === value?.toDateString() ? (
+            <span>Yesterday</span>
+          ) : (
+            <span>
+              {months[0]}
+              {months[0] !== months[1] ? ` - ${months[1]}` : ""}
+              {value ? `, ${value.getFullYear()}` : ""}
+            </span>
+          )}
         </div>
       </PopoverTrigger>
       <PopoverContent className="ml-4 w-auto p-0">

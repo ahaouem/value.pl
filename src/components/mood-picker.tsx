@@ -17,6 +17,7 @@ export function MoodPicker({
     >
       {moods.map((mood, idx) => (
         <button
+          type="button"
           onClick={() => onChange(idx)}
           key={idx}
           className={cn(
