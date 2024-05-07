@@ -1,28 +1,21 @@
 "use client";
 
-import { Tabs, TabsContent, TabsList } from "@/components/ui/Tabs";
-import DateBlock from "./DateBlock";
+import { Tabs, TabsContent, TabsList } from "@/components/ui/regular-tabs";
 import { useState } from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons";
 import { Button } from "../ui/button";
+import { Day, DayType } from "./day";
 
-export default function DateTabs() {
+export default function DaysList() {
   const [currentDateTab, setCurrentDateTab] = useState(
     new Date().toISOString().slice(0, 10),
   );
   const [currentWeekIndex, setCurrentWeekIndex] = useState(
-    getCurrentWeekIndex({ date: currentDateTab, disabled: false } as Day),
+    getCurrentWeekIndex({ date: currentDateTab, disabled: false } as DayType),
   );
-  console.log(currentWeekIndex);
-  interface Day {
-    date: string;
-    dayOfWeek: string;
-    dayOfMonth: number;
-    disabled: boolean;
-  }
 
-  function getCalendarData(firstDate: Date): Day[][] {
-    const calendarData: Day[][] = [];
+  function getCalendarData(firstDate: Date): DayType[][] {
+    const calendarData: DayType[][] = [];
     const currentDate = new Date();
     let currentDatePointer = new Date(firstDate);
 
@@ -33,7 +26,7 @@ export default function DateTabs() {
 
     // Iterate through weeks
     while (currentDatePointer <= currentDate) {
-      const week: Day[] = [];
+      const week: DayType[] = [];
 
       // Iterate through days of the week
       for (let i = 0; i < 7; i++) {
@@ -42,7 +35,7 @@ export default function DateTabs() {
           weekday: "long",
         });
         const dayOfMonth = currentDatePointer.getDate();
-        const day: Day = {
+        const day: DayType = {
           date: dateString,
           dayOfWeek: dayOfWeek,
           dayOfMonth: dayOfMonth,
@@ -58,7 +51,7 @@ export default function DateTabs() {
     return calendarData;
   }
 
-  function getCurrentWeekIndex(day: Day) {
+  function getCurrentWeekIndex(day: DayType) {
     const currentDate = new Date(day.date);
     const firstDate = new Date("2024-05-01"); // Change this to your desired start date
     const calendar = getCalendarData(firstDate);
@@ -107,8 +100,8 @@ export default function DateTabs() {
         className="flex h-auto w-fit items-center justify-between gap-x-2 divide-x"
       >
         <div className="flex gap-x-2">
-          {calendar[currentWeekIndex].map((day, dayIndex) => (
-            <DateBlock
+          {calendar[currentWeekIndex]?.map((day, dayIndex) => (
+            <Day
               key={dayIndex}
               disabled={day.disabled}
               date={new Date(day.date)}

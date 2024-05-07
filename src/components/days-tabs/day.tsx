@@ -1,13 +1,14 @@
 import { cn } from "@/lib/utils";
-import { TabsTrigger } from "../ui/Tabs";
+import { TabsTrigger } from "../ui/regular-tabs";
 
-export default function DateBlock({
-  date,
-  disabled,
-}: {
-  date: Date;
+export type DayType = {
+  date: string;
+  dayOfWeek: string;
+  dayOfMonth: number;
   disabled: boolean;
-}) {
+};
+
+export function Day({ date, disabled }: { date: Date; disabled: boolean }) {
   const today: Date = new Date();
 
   return (
