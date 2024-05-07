@@ -78,32 +78,50 @@ export default function DaysList({ firstDate }: { firstDate: Date }) {
 
   return (
     <div>
-      <DatePicker
-        months={[
-          new Date(
-            calendar?.[currentWeekIndex]?.[0]?.date ?? "",
-          ).toLocaleString("en-US", { month: "long" }),
-          new Date(
-            calendar?.[currentWeekIndex]?.[6]?.date ?? "",
-          ).toLocaleString("en-US", { month: "long" }),
-        ]}
-        value={new Date(currentDateTab)}
-        onChange={(date) => {
-          setCurrentDateTab(date.toISOString().slice(0, 10));
-          setCurrentWeekIndex(
-            getCurrentWeekIndex({
-              date: date.toISOString().slice(0, 10),
-              disabled: false,
-            } as DayType),
-          );
-        }}
-        disabled={[
-          {
-            after: new Date(),
-            before: new Date(firstDate),
-          },
-        ]}
-      />
+      <div className="flex items-center justify-between">
+        <DatePicker
+          months={[
+            new Date(
+              calendar?.[currentWeekIndex]?.[0]?.date ?? "",
+            ).toLocaleString("en-US", { month: "long" }),
+            new Date(
+              calendar?.[currentWeekIndex]?.[6]?.date ?? "",
+            ).toLocaleString("en-US", { month: "long" }),
+          ]}
+          value={new Date(currentDateTab)}
+          onChange={(date) => {
+            setCurrentDateTab(date.toISOString().slice(0, 10));
+            setCurrentWeekIndex(
+              getCurrentWeekIndex({
+                date: date.toISOString().slice(0, 10),
+                disabled: false,
+              } as DayType),
+            );
+          }}
+          disabled={[
+            {
+              after: new Date(),
+              before: new Date(firstDate),
+            },
+          ]}
+        />
+        {currentDateTab !== new Date().toISOString().slice(0, 10) && (
+          <Button
+            variant="ghost"
+            onClick={() => {
+              setCurrentDateTab(new Date().toISOString().slice(0, 10));
+              setCurrentWeekIndex(
+                getCurrentWeekIndex({
+                  date: new Date().toISOString().slice(0, 10),
+                  disabled: false,
+                } as DayType),
+              );
+            }}
+          >
+            Go back to today
+          </Button>
+        )}
+      </div>
 
       <Tabs
         className="flex items-center gap-x-1 bg-transparent"

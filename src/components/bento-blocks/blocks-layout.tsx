@@ -10,7 +10,7 @@ import {
 
 export default function BlocksLayout() {
   return (
-    <section className="grid h-full grid-cols-1 gap-4 bg-transparent pt-6 p-10 lg:grid-cols-3">
+    <section className="grid h-full grid-cols-1 gap-4 bg-transparent lg:grid-cols-3">
       <WobbleCard containerClassName="col-span-1 lg:col-span-2 h-full bg-violet-200">
         <SuggestionBlock />
       </WobbleCard>
