@@ -80,7 +80,7 @@ export default function GraphBlock() {
   const classNames = ["stroke-blue-500 fill-blue-500"];
   return (
     <LineChart
-      className="m-0 h-full w-full p-0"
+      className="m-0 h-full w-full p-0 [&_svg]:overflow-visible"
       data={chartdata}
       index="date"
       showLegend={false}
