@@ -3,32 +3,129 @@
 import { Tabs, TabsContent, TabsList } from "@/components/ui/Tabs";
 import DateBlock from "./DateBlock";
 import { useState } from "react";
+import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons";
+import { Button } from "../ui/button";
 
 export default function DateTabs() {
-  const [currentDateTab, setCurrentDateTab] = useState(new Date());
+  const [currentDateTab, setCurrentDateTab] = useState(
+    new Date().toISOString().slice(0, 10),
+  );
+  const [currentWeekIndex, setCurrentWeekIndex] = useState(
+    getCurrentWeekIndex({ date: currentDateTab, disabled: false } as Day),
+  );
+  console.log(currentWeekIndex);
+  interface Day {
+    date: string;
+    dayOfWeek: string;
+    dayOfMonth: number;
+    disabled: boolean;
+  }
 
-  const date_mocks = [
-    "2024-05-05",
-    "2024-05-06",
-    "2024-05-07",
-    "2024-05-08",
-    "2024-05-09",
-    "2024-05-10",
-    "2024-05-11",
-  ];
+  function getCalendarData(firstDate: Date): Day[][] {
+    const calendarData: Day[][] = [];
+    const currentDate = new Date();
+    let currentDatePointer = new Date(firstDate);
+
+    // Find the nearest Monday to start the calendar
+    while (currentDatePointer.getDay() !== 1) {
+      currentDatePointer.setDate(currentDatePointer.getDate() - 1);
+    }
+
+    // Iterate through weeks
+    while (currentDatePointer <= currentDate) {
+      const week: Day[] = [];
+
+      // Iterate through days of the week
+      for (let i = 0; i < 7; i++) {
+        const dateString = currentDatePointer.toISOString().slice(0, 10);
+        const dayOfWeek = currentDatePointer.toLocaleString("en-US", {
+          weekday: "long",
+        });
+        const dayOfMonth = currentDatePointer.getDate();
+        const day: Day = {
+          date: dateString,
+          dayOfWeek: dayOfWeek,
+          dayOfMonth: dayOfMonth,
+          disabled: currentDatePointer > currentDate,
+        };
+        week.push(day);
+        currentDatePointer.setDate(currentDatePointer.getDate() + 1);
+      }
+
+      calendarData.push(week);
+    }
+
+    return calendarData;
+  }
+
+  function getCurrentWeekIndex(day: Day) {
+    const currentDate = new Date(day.date);
+    const firstDate = new Date("2024-05-01"); // Change this to your desired start date
+    const calendar = getCalendarData(firstDate);
+
+    for (let i = 0; i < calendar.length; i++) {
+      const week = calendar[i];
+
+      if (week) {
+        for (let j = 0; j < week.length; j++) {
+          if (
+            week[j] &&
+            week[j]?.date === currentDate.toISOString().slice(0, 10)
+          ) {
+            return i;
+          }
+        }
+      }
+    }
+
+    return -1;
+  }
+
+  // Example usage
+  const firstDate = new Date("2024-05-01"); // Change this to your desired start date
+  const calendar = getCalendarData(firstDate);
 
   return (
-    <Tabs className="w-[500px]">
-      <TabsList className="flex h-auto w-full items-center justify-between gap-x-2">
-        {/* todo: add current DateTab */}
-        {date_mocks.map((date) => (
-          <DateBlock
-            key={date}
-            date={new Date(date)}
-            isActive={currentDateTab.toISOString() === date}
-          />
-        ))}
+    <Tabs
+      className="flex w-96 items-center gap-x-1 bg-zinc-100"
+      value={currentDateTab}
+      onValueChange={setCurrentDateTab}
+    >
+      <div>
+        <Button
+          disabled={currentWeekIndex === 0}
+          size="icon"
+          variant="ghost"
+          onClick={() => setCurrentWeekIndex((prev) => prev - 1)}
+        >
+          <ChevronLeftIcon />
+        </Button>
+      </div>
+
+      <TabsList
+        loop={false}
+        className="flex h-auto w-fit items-center justify-between gap-x-2 divide-x"
+      >
+        <div className="flex gap-x-2">
+          {calendar[currentWeekIndex].map((day, dayIndex) => (
+            <DateBlock
+              key={dayIndex}
+              disabled={day.disabled}
+              date={new Date(day.date)}
+            />
+          ))}
+        </div>
       </TabsList>
+      <div>
+        <Button
+          disabled={currentWeekIndex === calendar.length - 1}
+          size="icon"
+          variant="ghost"
+          onClick={() => setCurrentWeekIndex((prev) => prev + 1)}
+        >
+          <ChevronRightIcon />
+        </Button>
+      </div>
       <TabsContent value="account">
         Make changes to your account here.
       </TabsContent>

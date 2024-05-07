@@ -1,24 +1,23 @@
-import clsx from "clsx";
+import { cn } from "@/lib/utils";
 import { TabsTrigger } from "../ui/Tabs";
 
 export default function DateBlock({
   date,
-  isActive,
+  disabled,
 }: {
   date: Date;
-  isActive: boolean;
+  disabled: boolean;
 }) {
   const today: Date = new Date();
 
   return (
     <TabsTrigger
-      disabled={date > today}
-      value={date.toISOString()}
-      className={clsx(
+      disabled={disabled}
+      value={date.toISOString().slice(0, 10)}
+      className={cn(
         "flex h-14 w-20 flex-col items-center justify-between",
-        isActive && "bg-blue-500 text-white",
-        date > today && "cursor-not-allowed opacity-50",
-        date <= today && "cursor-pointer",
+        today.toDateString() === date.toDateString() &&
+          "ring-1 ring-zinc-300 data-[state=active]:ring-0",
       )}
     >
       <div className="text-lg">
