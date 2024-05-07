@@ -1,3 +1,14 @@
+import BlocksLayout from "./bento-blocks/blocks-layout";
+import HelloHeader from "./ui/header";
+import { HeroHighlight } from "./ui/hero-highlight";
+
 export default function RightSection() {
-  return <div className="flex-1 p-4 md:p-6">Hello, Alex!</div>;
+  return (
+    <main className="h-screen flex-1">
+      <HeroHighlight>
+        <HelloHeader />
+        <BlocksLayout />
+      </HeroHighlight>
+    </main>
+  );
 }

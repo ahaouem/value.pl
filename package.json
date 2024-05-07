@@ -23,10 +23,12 @@
     "drizzle-orm": "^0.30.10",
     "embla-carousel-react": "^8.0.4",
     "framer-motion": "^11.1.8",
+    "mini-svg-data-uri": "^1.4.4",
     "next": "^14.2.3",
     "react": "18.3.1",
     "react-day-picker": "^8.10.1",
     "react-dom": "18.3.1",
+    "recharts": "^2.12.6",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.23.6"
