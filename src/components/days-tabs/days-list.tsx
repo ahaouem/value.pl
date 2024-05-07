@@ -78,7 +78,7 @@ export default function DaysList({ firstDate }: { firstDate: Date }) {
 
   return (
     <div>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between sm:px-6">
         <DatePicker
           months={[
             new Date(
@@ -108,6 +108,7 @@ export default function DaysList({ firstDate }: { firstDate: Date }) {
         {currentDateTab !== new Date().toISOString().slice(0, 10) && (
           <Button
             variant="ghost"
+            className="-mr-2 py-0"
             onClick={() => {
               setCurrentDateTab(new Date().toISOString().slice(0, 10));
               setCurrentWeekIndex(
@@ -133,6 +134,7 @@ export default function DaysList({ firstDate }: { firstDate: Date }) {
             disabled={currentWeekIndex === 0}
             size="icon"
             variant="ghost"
+            className="w-7"
             onClick={() => setCurrentWeekIndex((prev) => prev - 1)}
           >
             <ChevronLeftIcon />
@@ -140,7 +142,7 @@ export default function DaysList({ firstDate }: { firstDate: Date }) {
         </div>
         <TabsList
           loop={false}
-          className="flex h-auto w-full items-center justify-between gap-x-2 divide-x"
+          className="flex h-auto w-full items-center justify-between gap-x-2 divide-x px-0"
         >
           <div className="flex w-full gap-x-2">
             {calendar[currentWeekIndex]?.map((day, dayIndex) => (
@@ -153,6 +155,7 @@ export default function DaysList({ firstDate }: { firstDate: Date }) {
             disabled={currentWeekIndex === calendar.length - 1}
             size="icon"
             variant="ghost"
+            className="w-7"
             onClick={() => setCurrentWeekIndex((prev) => prev + 1)}
           >
             <ChevronRightIcon />

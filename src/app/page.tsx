@@ -8,8 +8,8 @@ export default async function HomePage() {
       <LeftSection />
 
       <Drawer>
-        <DrawerTrigger className="h-8 lg:hidden">
-          <div className="mx-auto h-2 w-[100px] rounded-full bg-muted" />
+        <DrawerTrigger className="fixed inset-x-0 bottom-0 h-8 lg:hidden">
+          <div className="bg-muted mx-auto h-2 w-[100px] rounded-full" />
         </DrawerTrigger>
         <DrawerContent>
           <RightSection mobile />
