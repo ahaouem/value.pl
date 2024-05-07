@@ -25,7 +25,7 @@ const formSchema = z.object({
 export default function JournalForm() {
   const form = useForm({
     resolver: zodResolver(formSchema),
-    defaultValues: { mood: 3, dayDescription: "Today I am grateful for..." },
+    defaultValues: { mood: 4, dayDescription: "Today I am grateful for..." },
   });
   const onSubmit = (data: z.infer<typeof formSchema>) => {
     console.log(data);
@@ -92,15 +92,31 @@ export default function JournalForm() {
                 </CardHeader>
                 <CardContent>
                   <FormControl>
-                    <Textarea
-                      {...field}
-                      placeholder="Write about your day, what you are grateful for, or anything else you want to remember."
-                      rows={rows}
-                    />
+                    <div className="flex h-full w-full">
+                      <Textarea
+                        {...field}
+                        placeholder="Today I am grateful for..."
+                        onKeyDown={(e) => {
+                          if (
+                            e.key === "Tab" &&
+                            form.getValues().dayDescription.trim() === ""
+                          ) {
+                            e.preventDefault();
+                            form.setValue(
+                              "dayDescription",
+                              "Today I am grateful for...",
+                            );
+                          }
+                        }}
+                        rows={rows}
+                        className="h-full w-full resize-none"
+                      />
+                    </div>
                   </FormControl>
                   <FormDescription>
                     This is where you can write about your day, what you are
-                    grateful for, or anything else you want to remember.
+                    grateful for, describe your feelings, or whatever you have
+                    laying on your heart.
                   </FormDescription>
                 </CardContent>
                 <FormMessage />
