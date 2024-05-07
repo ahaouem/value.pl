@@ -9,7 +9,7 @@ export default async function HomePage() {
 
       <Drawer>
         <DrawerTrigger className="h-8 lg:hidden">
-          <div className="bg-muted mx-auto h-2 w-[100px] rounded-full" />
+          <div className="mx-auto h-2 w-[100px] rounded-full bg-muted" />
         </DrawerTrigger>
         <DrawerContent>
           <RightSection mobile />
