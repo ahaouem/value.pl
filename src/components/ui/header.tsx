@@ -2,7 +2,7 @@
 import { motion } from "framer-motion";
 
 import { HeroHighlight, Highlight } from "./hero-highlight";
-import { useSession, useUser, UserButton } from "@clerk/nextjs";
+import { useSession, useUser, UserButton, SignInButton } from "@clerk/nextjs";
 
 export default function HelloHeader() {
   const { user } = useUser();
@@ -31,7 +31,7 @@ export default function HelloHeader() {
           Hello, {user.firstName}
         </motion.h1>
       </HeroHighlight>
-      <UserButton />
+      {user ? <UserButton /> : <SignInButton />}
     </main>
   );
 }

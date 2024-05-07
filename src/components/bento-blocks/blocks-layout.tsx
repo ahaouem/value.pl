@@ -10,24 +10,24 @@ import {
 
 export default function BlocksLayout() {
   return (
-    <section className="grid h-full grid-cols-1 gap-8 bg-transparent p-10 lg:grid-cols-3">
-      <WobbleCard containerClassName="col-span-1 lg:col-span-2 h-full bg-[#9779EE]">
+    <section className="grid h-full grid-cols-1 gap-4 bg-transparent pt-6 p-10 lg:grid-cols-3">
+      <WobbleCard containerClassName="col-span-1 lg:col-span-2 h-full bg-violet-200">
         <SuggestionBlock />
       </WobbleCard>
 
-      <WobbleCard containerClassName="col-span-1 bg-[#FA6D6D]">
+      <WobbleCard containerClassName="col-span-1 bg-rose-200">
         <RankBlock />
       </WobbleCard>
 
-      <WobbleCard containerClassName="col-span-1 bg-[#EAEE64]">
+      <WobbleCard containerClassName="col-span-1 bg-amber-200">
         <StreakBlock />
       </WobbleCard>
 
-      <WobbleCard containerClassName="col-span-1 lg:col-span-2 h-full bg-[#7FD9FF]">
+      <WobbleCard containerClassName="col-span-1 lg:col-span-2 h-full bg-sky-200">
         <GraphBlock />
       </WobbleCard>
 
-      <WobbleCard containerClassName="col-span-1 lg:col-span-3 bg-[#8AEFAC]">
+      <WobbleCard containerClassName="col-span-1 lg:col-span-3 bg-green-200">
         <QuoteBlock />
       </WobbleCard>
     </section>

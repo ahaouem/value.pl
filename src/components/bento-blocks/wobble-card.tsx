@@ -55,7 +55,8 @@ export const WobbleCard = ({
               : "translate3d(0px, 0px, 0) scale3d(1, 1, 1)",
             transition: "transform 0.1s ease-out",
           }}
-          className={cn("h-full px-4 py-[55px] sm:px-10", className)}
+          transition={{ type: "spring", stiffness: 1000, damping: 20 }}
+          className={cn("h-full px-4 py-14 sm:px-10", className)}
         >
           <Noise />
           {children}

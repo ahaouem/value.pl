@@ -34,9 +34,7 @@ export const HeroHighlight = ({
       )}
       onMouseMove={handleMouseMove}
     >
-      <div className="bg-dot-thick-neutral-300 dark:bg-dot-thick-neutral-800 pointer-events-none absolute inset-0" />
       <motion.div
-        className="bg-dot-thick-indigo-500 dark:bg-dot-thick-indigo-500 pointer-events-none absolute inset-0 opacity-0 transition duration-300 group-hover:opacity-100"
         style={{
           WebkitMaskImage: useMotionTemplate`
             radial-gradient(
