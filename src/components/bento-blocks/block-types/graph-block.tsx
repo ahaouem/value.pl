@@ -1,40 +1,69 @@
 "use client";
 
-import { LineChart } from "@tremor/react";
+import { CustomTooltipProps, LineChart } from "@tremor/react";
 
 const chartdata = [
   {
-    date: "2024-05-05",
-    value: 9,
-  },
-  {
-    date: "2024-05-06",
-    value: 10,
-  },
-  {
-    date: "2024-05-07",
-    value: 8,
-  },
-  {
-    date: "2024-05-08",
+    date: new Date("2024-05-05").toLocaleString("en-US", {
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    }),
     value: 7,
   },
   {
-    date: "2024-05-09",
-    value: 6,
-  },
-  {
-    date: "2024-05-10",
+    date: new Date("2024-05-06").toLocaleString("en-US", {
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    }),
     value: 5,
   },
   {
-    date: "2024-05-11",
+    date: new Date("2024-05-07").toLocaleString("en-US", {
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    }),
+    value: 3,
+  },
+  {
+    date: new Date("2024-05-08").toLocaleString("en-US", {
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    }),
+    value: 7,
+  },
+  {
+    date: new Date("2024-05-09").toLocaleString("en-US", {
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    }),
+    value: 2,
+  },
+  {
+    date: new Date("2024-05-10").toLocaleString("en-US", {
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    }),
+    value: 5,
+  },
+  {
+    date: new Date("2024-05-11").toLocaleString("en-US", {
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    }),
     value: 4,
   },
 ];
 
 export default function GraphBlock() {
-  const customTooltip = (props) => {
+  const moods = ["😔", "😞", "😕", "😐", "😃", "😄", "😊"];
+  const customTooltip = (props: CustomTooltipProps) => {
     const { payload, active } = props;
     if (!active || !payload) return null;
 
@@ -42,22 +71,24 @@ export default function GraphBlock() {
       <div className="flex w-10 items-center justify-center rounded-md border-none bg-white p-2 text-center">
         {payload.map((category, idx) => (
           <p key={idx} className="font-medium">
-            {category.value}
+            {moods[((category?.value as number) ?? 0) - 1]}
           </p>
         ))}
       </div>
     );
   };
-
+  const classNames = ["stroke-blue-500 fill-blue-500"];
   return (
     <LineChart
       className="m-0 h-full w-full p-0"
       data={chartdata}
       index="date"
+      showLegend={false}
       categories={["value"]}
       colors={["blue"]}
       yAxisWidth={20}
-      maxValue={10}
+      maxValue={7}
+      valueFormatter={(value) => moods[value - 1] ?? ""}
       minValue={1}
       customTooltip={customTooltip}
     />

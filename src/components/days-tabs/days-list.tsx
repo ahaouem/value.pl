@@ -19,7 +19,7 @@ export default function DaysList({ firstDate }: { firstDate: Date }) {
     const calendarData: DayType[][] = [];
     const currentDate = new Date();
     let currentDatePointer = new Date(firstDate);
-
+    currentDatePointer.setHours(0, 0, 0, 0);
     // Find the nearest Monday to start the calendar
     while (currentDatePointer.getDay() !== 1) {
       currentDatePointer.setDate(currentDatePointer.getDate() - 1);
@@ -36,12 +36,16 @@ export default function DaysList({ firstDate }: { firstDate: Date }) {
           weekday: "long",
         });
         const dayOfMonth = currentDatePointer.getDate();
+
+        const isGreaterThanToday = currentDatePointer > currentDate;
+
         const day: DayType = {
           date: dateString,
           dayOfWeek: dayOfWeek,
           dayOfMonth: dayOfMonth,
-          disabled: currentDatePointer > currentDate,
+          disabled: isGreaterThanToday,
         };
+
         week.push(day);
         currentDatePointer.setDate(currentDatePointer.getDate() + 1);
       }

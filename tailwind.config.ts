@@ -1,5 +1,6 @@
 import type { Config } from "tailwindcss";
 import { fontFamily } from "tailwindcss/defaultTheme";
+import colors from "tailwindcss/colors";
 
 const config = {
   darkMode: ["class"],
@@ -20,6 +21,35 @@ const config = {
     },
     extend: {
       colors: {
+        tremor: {
+          brand: {
+            faint: colors.blue[50],
+            muted: colors.blue[200],
+            subtle: colors.blue[400],
+            DEFAULT: colors.blue[500],
+            emphasis: colors.blue[700],
+            inverted: colors.white,
+          },
+          background: {
+            muted: colors.sky[50],
+            subtle: colors.sky[100],
+            DEFAULT: colors.white,
+            emphasis: colors.sky[700],
+          },
+          border: {
+            DEFAULT: colors.blue[200],
+          },
+          ring: {
+            DEFAULT: colors.sky[200],
+          },
+          content: {
+            subtle: colors.sky[900],
+            DEFAULT: colors.sky[900],
+            emphasis: colors.sky[700],
+            strong: colors.sky[900],
+            inverted: colors.white,
+          },
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
