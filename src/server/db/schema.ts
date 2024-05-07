@@ -26,4 +26,11 @@ export const posts = createTable(
     nameIndex: index("name_idx").on(example.name),
   }),
 );
-  
+
+
+export const quotes = createTable("quotes", {
+  id: int("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
+  quote: text("quote", { length: 256 }),
+  author: text("author", { length: 256 }),
+});
+
