@@ -5,8 +5,9 @@ import { useState } from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons";
 import { Button } from "../ui/button";
 import { Day, DayType } from "./day";
+import { DatePicker } from "./date-picker";
 
-export default function DaysList() {
+export default function DaysList({ firstDate }: { firstDate: Date }) {
   const [currentDateTab, setCurrentDateTab] = useState(
     new Date().toISOString().slice(0, 10),
   );
@@ -53,7 +54,6 @@ export default function DaysList() {
 
   function getCurrentWeekIndex(day: DayType) {
     const currentDate = new Date(day.date);
-    const firstDate = new Date("2024-05-01"); // Change this to your desired start date
     const calendar = getCalendarData(firstDate);
 
     for (let i = 0; i < calendar.length; i++) {
@@ -74,55 +74,77 @@ export default function DaysList() {
     return -1;
   }
 
-  // Example usage
-  const firstDate = new Date("2024-05-01"); // Change this to your desired start date
   const calendar = getCalendarData(firstDate);
 
   return (
-    <Tabs
-      className="flex items-center gap-x-1 bg-zinc-100"
-      value={currentDateTab}
-      onValueChange={setCurrentDateTab}
-    >
-      <div>
-        <Button
-          disabled={currentWeekIndex === 0}
-          size="icon"
-          variant="ghost"
-          onClick={() => setCurrentWeekIndex((prev) => prev - 1)}
-        >
-          <ChevronLeftIcon />
-        </Button>
-      </div>
+    <div>
+      <DatePicker
+        months={[
+          new Date(
+            calendar?.[currentWeekIndex]?.[0]?.date ?? "",
+          ).toLocaleString("en-US", { month: "long" }),
+          new Date(
+            calendar?.[currentWeekIndex]?.[6]?.date ?? "",
+          ).toLocaleString("en-US", { month: "long" }),
+        ]}
+        value={new Date(currentDateTab)}
+        onChange={(date) => {
+          setCurrentDateTab(date.toISOString().slice(0, 10));
+          setCurrentWeekIndex(
+            getCurrentWeekIndex({
+              date: date.toISOString().slice(0, 10),
+              disabled: false,
+            } as DayType),
+          );
+        }}
+        disabled={[
+          {
+            after: new Date(),
+            before: new Date(firstDate),
+          },
+        ]}
+      />
 
-      <TabsList
-        loop={false}
-        className="flex h-auto w-full items-center justify-between gap-x-2 divide-x"
+      <Tabs
+        className="flex items-center gap-x-1 bg-transparent"
+        value={currentDateTab}
+        onValueChange={setCurrentDateTab}
       >
-        <div className="flex w-full gap-x-2">
-          {calendar[currentWeekIndex]?.map((day, dayIndex) => (
-            <Day
-              key={dayIndex}
-              disabled={day.disabled}
-              date={new Date(day.date)}
-            />
-          ))}
+        <div>
+          <Button
+            disabled={currentWeekIndex === 0}
+            size="icon"
+            variant="ghost"
+            onClick={() => setCurrentWeekIndex((prev) => prev - 1)}
+          >
+            <ChevronLeftIcon />
+          </Button>
         </div>
-      </TabsList>
-      <div>
-        <Button
-          disabled={currentWeekIndex === calendar.length - 1}
-          size="icon"
-          variant="ghost"
-          onClick={() => setCurrentWeekIndex((prev) => prev + 1)}
+        <TabsList
+          loop={false}
+          className="flex h-auto w-full items-center justify-between gap-x-2 divide-x"
         >
-          <ChevronRightIcon />
-        </Button>
-      </div>
-      <TabsContent value="account">
-        Make changes to your account here.
-      </TabsContent>
-      <TabsContent value="password">Change your password here.</TabsContent>
-    </Tabs>
+          <div className="flex w-full gap-x-2">
+            {calendar[currentWeekIndex]?.map((day, dayIndex) => (
+              <Day key={dayIndex} day={day} />
+            ))}
+          </div>
+        </TabsList>
+        <div>
+          <Button
+            disabled={currentWeekIndex === calendar.length - 1}
+            size="icon"
+            variant="ghost"
+            onClick={() => setCurrentWeekIndex((prev) => prev + 1)}
+          >
+            <ChevronRightIcon />
+          </Button>
+        </div>
+        <TabsContent value="account">
+          Make changes to your account here.
+        </TabsContent>
+        <TabsContent value="password">Change your password here.</TabsContent>
+      </Tabs>
+    </div>
   );
 }

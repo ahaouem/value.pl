@@ -1,12 +1,48 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import * as TabsPrimitive from "@radix-ui/react-tabs"
+import * as React from "react";
+import * as TabsPrimitive from "@radix-ui/react-tabs";
+import { motion } from "framer-motion";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
-const Tabs = TabsPrimitive.Root
+const TabsContext = React.createContext<{
+  value: string;
+  onValueChange: (value: string) => void;
+}>({
+  value: "",
+  onValueChange: () => {},
+});
 
+const Tabs = ({
+  children,
+  value,
+  onValueChange,
+  defaultValue,
+  ...props
+}: TabsPrimitive.TabsProps) => {
+  const [currentValue, setCurrentValue] = React.useState(
+    value ?? defaultValue ?? "",
+  );
+
+  return (
+    <TabsContext.Provider
+      value={{
+        value: value ?? currentValue,
+        onValueChange: onValueChange ?? setCurrentValue,
+      }}
+    >
+      <TabsPrimitive.Root
+        value={value ?? currentValue}
+        onValueChange={onValueChange ?? setCurrentValue}
+        defaultValue={defaultValue}
+        {...props}
+      >
+        {children}
+      </TabsPrimitive.Root>
+    </TabsContext.Provider>
+  );
+};
 const TabsList = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.List>,
   React.ComponentPropsWithoutRef<typeof TabsPrimitive.List>
@@ -14,28 +50,42 @@ const TabsList = React.forwardRef<
   <TabsPrimitive.List
     ref={ref}
     className={cn(
-      "inline-flex h-9 items-center justify-center rounded-lg bg-zinc-100 p-1 text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400",
-      className
+      "bg-muted text-muted-foreground inline-flex h-9 items-center justify-center rounded-lg p-1",
+      className,
     )}
     {...props}
   />
-))
-TabsList.displayName = TabsPrimitive.List.displayName
+));
+TabsList.displayName = TabsPrimitive.List.displayName;
 
 const TabsTrigger = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.Trigger>,
   React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>
->(({ className, ...props }, ref) => (
-  <TabsPrimitive.Trigger
-    ref={ref}
-    className={cn(
-      "inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1 text-sm font-medium ring-offset-white transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-white data-[state=active]:text-zinc-950 data-[state=active]:shadow dark:ring-offset-zinc-950 dark:focus-visible:ring-zinc-300 dark:data-[state=active]:bg-zinc-950 dark:data-[state=active]:text-zinc-50",
-      className
-    )}
-    {...props}
-  />
-))
-TabsTrigger.displayName = TabsPrimitive.Trigger.displayName
+>(({ className, children, value, ...props }, ref) => {
+  const { value: currentValue } = React.useContext(TabsContext);
+
+  return (
+    <TabsPrimitive.Trigger
+      ref={ref}
+      className={cn(
+        "ring-offset-background focus-visible:ring-ring data-[state=active]:text-foreground relative inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1 text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-45",
+        className,
+      )}
+      value={value}
+      {...props}
+    >
+      <div className="z-[1]">{children}</div>
+      {currentValue === value && (
+        <motion.div
+          className="bg-background absolute inset-0 h-full w-full rounded-[inherit] shadow"
+          layoutId="tabTrigger"
+          transition={{ duration: 0.4, type: "spring", bounce: 0.25 }}
+        />
+      )}
+    </TabsPrimitive.Trigger>
+  );
+});
+TabsTrigger.displayName = TabsPrimitive.Trigger.displayName;
 
 const TabsContent = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.Content>,
@@ -44,12 +94,12 @@ const TabsContent = React.forwardRef<
   <TabsPrimitive.Content
     ref={ref}
     className={cn(
-      "mt-2 ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2 dark:ring-offset-zinc-950 dark:focus-visible:ring-zinc-300",
-      className
+      "ring-offset-background focus-visible:ring-ring mt-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
+      className,
     )}
     {...props}
   />
-))
-TabsContent.displayName = TabsPrimitive.Content.displayName
+));
+TabsContent.displayName = TabsPrimitive.Content.displayName;
 
-export { Tabs, TabsList, TabsTrigger, TabsContent }
+export { Tabs, TabsList, TabsTrigger, TabsContent };
