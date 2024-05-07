@@ -1,8 +1,7 @@
 "use client";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { MoodPicker } from "../mood-picker/mood-picker";
+
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -12,16 +11,13 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { MoodPicker } from "../mood-picker/mood-picker";
 import { Textarea } from "../ui/textarea";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+
 const formSchema = z.object({
   mood: z.number(),
   dayDescription: z.string(),
@@ -34,6 +30,30 @@ export default function JournalForm() {
   const onSubmit = (data: z.infer<typeof formSchema>) => {
     console.log(data);
   };
+
+  const [rows, setRows] = useState<number>(5);
+
+  useEffect(() => {
+    function updateRows() {
+      const viewportWidth: number = window.innerWidth;
+      let newRows: number = 5;
+
+      if (viewportWidth <= 768) {
+        newRows = 3;
+      } else if (viewportWidth <= 1024) {
+        newRows = 4;
+      }
+
+      setRows(newRows);
+    }
+
+    updateRows();
+    window.addEventListener("resize", updateRows);
+
+    return () => {
+      window.removeEventListener("resize", updateRows);
+    };
+  }, []);
 
   return (
     <Form {...form}>
@@ -72,7 +92,11 @@ export default function JournalForm() {
                 </CardHeader>
                 <CardContent>
                   <FormControl>
-                    <Textarea {...field} rows={15} />
+                    <Textarea
+                      {...field}
+                      placeholder="Write about your day, what you are grateful for, or anything else you want to remember."
+                      rows={rows}
+                    />
                   </FormControl>
                   <FormDescription>
                     This is where you can write about your day, what you are
