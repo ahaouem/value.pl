@@ -16,15 +16,17 @@ export function Day({ date, disabled }: { date: Date; disabled: boolean }) {
       disabled={disabled}
       value={date.toISOString().slice(0, 10)}
       className={cn(
-        "flex h-14 w-full flex-col items-center justify-between px-0",
+        "flex w-full flex-col items-center justify-between gap-0.5 max-md:p-1",
         today.toDateString() === date.toDateString() &&
-          "ring-1 ring-zinc-300 data-[state=active]:ring-0",
+          "ring-foreground/20 ring-1 data-[state=active]:ring-0",
       )}
     >
-      <div className="md:text-lg">
+      <div className="max-sm:text-xs">
+        {date.toLocaleString("en-US", { weekday: "short" })}
+      </div>
+      <div className="font-semibold md:text-lg">
         {date.toLocaleString("en-US", { day: "numeric" })}
       </div>
-      <div>{date.toLocaleString("en-US", { weekday: "short" })}</div>
     </TabsTrigger>
   );
 }

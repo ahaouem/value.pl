@@ -80,7 +80,7 @@ export default function DaysList() {
 
   return (
     <Tabs
-      className="flex items-center gap-x-1 bg-zinc-100"
+      className="flex items-center gap-x-1 bg-transparent"
       value={currentDateTab}
       onValueChange={setCurrentDateTab}
     >
