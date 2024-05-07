@@ -4,7 +4,23 @@
 
 @font-face {
   font-family: "OpenRunde";
+  font-weight: normal;
+  src: url("../assets/OpenRunde-Regular.woff2") format("woff2");
+}
+@font-face {
+  font-family: "OpenRunde";
+  font-weight: semi-bold;
+  src: url("../assets/OpenRunde-Semibold.woff2") format("woff2");
+}
+@font-face {
+  font-family: "OpenRunde";
+  font-weight: Medium;
   src: url("../assets/OpenRunde-Medium.woff2") format("woff2");
+}
+@font-face {
+  font-family: "OpenRunde";
+  font-weight: Bold;
+  src: url("../assets/OpenRunde-Bold.woff2") format("woff2");
 }
 
 @layer base {
