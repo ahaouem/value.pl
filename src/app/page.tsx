@@ -1,8 +1,12 @@
-// import { db } from "@/server/db";
-// import { posts } from "@/server/db/schema";
+
+import Header from "@/components/Header";
 
 export default async function HomePage() {
-  // const data = await db.select().from(posts);
-  // console.log(data);
-  return <main></main>;
+  return (
+    <main className="grid min-h-screen text-zinc-950 md:grid-cols-2">
+      <div className="flex-1 bg-zinc-100"></div>
+      <div className="flex-1"></div>
+    </main>
+  );
+
 }
