@@ -3,13 +3,15 @@ import { cn } from "@/lib/utils";
 export function MoodPicker({
   value,
   onChange,
+  className,
+  ...props
 }: {
   value: number;
   onChange: (value: number) => void;
-}) {
+} & React.HTMLAttributes<HTMLDivElement>) {
   const mood = ["😔", "😞", "😕", "😐", "😃", "😄", "😊"];
   return (
-    <div className="flex w-full flex-row">
+    <div className={cn("flex w-full flex-row", className)} {...props}>
       {mood.map((mood, idx) => (
         <button
           onClick={() => onChange(idx)}
