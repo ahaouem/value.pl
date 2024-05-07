@@ -80,7 +80,7 @@ export default function DaysList() {
 
   return (
     <Tabs
-      className="flex w-96 items-center gap-x-1 bg-zinc-100"
+      className="flex items-center gap-x-1 bg-zinc-100"
       value={currentDateTab}
       onValueChange={setCurrentDateTab}
     >
@@ -97,9 +97,9 @@ export default function DaysList() {
 
       <TabsList
         loop={false}
-        className="flex h-auto w-fit items-center justify-between gap-x-2 divide-x"
+        className="flex h-auto w-full items-center justify-between gap-x-2 divide-x"
       >
-        <div className="flex gap-x-2">
+        <div className="flex w-full gap-x-2">
           {calendar[currentWeekIndex]?.map((day, dayIndex) => (
             <Day
               key={dayIndex}

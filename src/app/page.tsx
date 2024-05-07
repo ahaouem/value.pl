@@ -1,10 +1,11 @@
-import Header from "@/components/Header";
+import LeftSection from "@/components/left-section";
+import RightSection from "@/components/right-section";
 
 export default async function HomePage() {
   return (
     <main className="grid min-h-screen text-zinc-950 md:grid-cols-2">
-      <div className="flex-1 bg-zinc-100">adadas</div>
-      <div className="flex-1">adasd</div>
+      <LeftSection />
+      <RightSection />
     </main>
   );
 }
