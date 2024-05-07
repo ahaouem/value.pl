@@ -6,9 +6,9 @@ export type TBlock = {
 };
 export enum BlockType {
   Quote = "quote",
-  CallToAction = "callForHelp",
-  Breathe = "breathe",
+  CallForHelp = "callForHelp",
   AddDailyJournal = "addDailyJournal",
+  Streak = "streak",
 }
 
 export type BlockSize = {

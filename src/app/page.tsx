@@ -1,5 +1,5 @@
-import { DateTabs } from "@/components";
-import Link from "next/link";
+import { BlocksLayout, DateTabs } from "@/components";
+import { WobbleCard } from "@/components/Blocks/WobbleCard";
 // import { db } from "@/server/db";
 // import { posts } from "@/server/db/schema";
 
@@ -8,7 +8,7 @@ export default async function HomePage() {
   // console.log(data);
   return (
     <main>
-      <DateTabs />
+      <BlocksLayout />
     </main>
   );
 }
