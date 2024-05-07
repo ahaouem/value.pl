@@ -5,6 +5,7 @@ import { useState } from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons";
 import { Button } from "../ui/button";
 import { Day, DayType } from "./day";
+import { DatePicker } from "./date-picker";
 
 export default function DaysList({ firstDate }: { firstDate: Date }) {
   const [currentDateTab, setCurrentDateTab] = useState(
@@ -73,36 +74,52 @@ export default function DaysList({ firstDate }: { firstDate: Date }) {
     return -1;
   }
 
-  // Example usage
   const calendar = getCalendarData(firstDate);
 
   return (
     <div>
-      <div className="flex items-center gap-x-2 font-semibold max-sm:my-2 max-sm:justify-center sm:mb-2 sm:text-lg">
-        <span>
-          {(calendar[currentWeekIndex]?.[0]?.date &&
+      <div className="flex items-center justify-between">
+        <DatePicker
+          months={[
             new Date(
               calendar?.[currentWeekIndex]?.[0]?.date ?? "",
-            ).toLocaleString("en-US", {
-              month: "long",
-            })) ||
-            ""}
-        </span>
-
-        {new Date(calendar?.[currentWeekIndex]?.[0]?.date ?? "")?.getMonth() !==
-          new Date(
-            calendar?.[currentWeekIndex]?.[6]?.date ?? "",
-          )?.getMonth() && (
-          <>
-            <span>-</span>
-            <span>
-              {new Date(
-                calendar?.[currentWeekIndex]?.[6]?.date ?? "",
-              ).toLocaleString("en-US", {
-                month: "long",
-              })}
-            </span>
-          </>
+            ).toLocaleString("en-US", { month: "long" }),
+            new Date(
+              calendar?.[currentWeekIndex]?.[6]?.date ?? "",
+            ).toLocaleString("en-US", { month: "long" }),
+          ]}
+          value={new Date(currentDateTab)}
+          onChange={(date) => {
+            setCurrentDateTab(date.toISOString().slice(0, 10));
+            setCurrentWeekIndex(
+              getCurrentWeekIndex({
+                date: date.toISOString().slice(0, 10),
+                disabled: false,
+              } as DayType),
+            );
+          }}
+          disabled={[
+            {
+              after: new Date(),
+              before: new Date(firstDate),
+            },
+          ]}
+        />
+        {currentDateTab !== new Date().toISOString().slice(0, 10) && (
+          <Button
+            variant="ghost"
+            onClick={() => {
+              setCurrentDateTab(new Date().toISOString().slice(0, 10));
+              setCurrentWeekIndex(
+                getCurrentWeekIndex({
+                  date: new Date().toISOString().slice(0, 10),
+                  disabled: false,
+                } as DayType),
+              );
+            }}
+          >
+            Go back to today
+          </Button>
         )}
       </div>
 
@@ -127,11 +144,7 @@ export default function DaysList({ firstDate }: { firstDate: Date }) {
         >
           <div className="flex w-full gap-x-2">
             {calendar[currentWeekIndex]?.map((day, dayIndex) => (
-              <Day
-                key={dayIndex}
-                disabled={day.disabled}
-                date={new Date(day.date)}
-              />
+              <Day key={dayIndex} day={day} />
             ))}
           </div>
         </TabsList>

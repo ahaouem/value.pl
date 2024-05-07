@@ -1,22 +1,35 @@
-"use client";
 import React from "react";
 import { WobbleCard } from "./wobble-card";
-import QuoteBlock from "./block-types/quote-block";
-import RankBlock from "./block-types/rank-block";
-import GraphBlock from "./block-types/graph-block";
+import {
+  GraphBlock,
+  QuoteBlock,
+  RankBlock,
+  StreakBlock,
+  SuggestionBlock,
+} from "./block-types";
 
 export default function BlocksLayout() {
   return (
-    <div className="mx-auto grid h-[650px] w-full grid-cols-1 gap-4 lg:grid-cols-3">
-      <WobbleCard containerClassName="col-span-1 lg:col-span-2 h-full bg-pink-800">
-        <QuoteBlock />
+    <section className="grid h-full grid-cols-1 gap-4 bg-transparent lg:grid-cols-3">
+      <WobbleCard containerClassName="col-span-1 lg:col-span-2 h-full bg-violet-200">
+        <SuggestionBlock />
       </WobbleCard>
-      <WobbleCard containerClassName="col-span-1 min-h-[300px]">
+
+      <WobbleCard containerClassName="col-span-1 bg-rose-200">
         <RankBlock />
       </WobbleCard>
-      <WobbleCard containerClassName="col-span-1 lg:col-span-3 bg-blue-900">
+
+      <WobbleCard containerClassName="col-span-1 bg-amber-200">
+        <StreakBlock />
+      </WobbleCard>
+
+      <WobbleCard containerClassName="col-span-1 lg:col-span-2 h-full bg-sky-200">
         <GraphBlock />
       </WobbleCard>
-    </div>
+
+      <WobbleCard containerClassName="col-span-1 lg:col-span-3 bg-green-200">
+        <QuoteBlock />
+      </WobbleCard>
+    </section>
   );
 }
