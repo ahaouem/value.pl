@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "OpenRunde";
+  src: url("../assets/OpenRunde-Medium.woff2") format("woff2");
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -24,6 +29,7 @@
     --input: 240 5.9% 90%;
     --ring: 240 5% 64.9%;
     --radius: 0.75rem;
+    --font-sans: "OpenRunde", "Inter", sans-serif;
   }
 
   .dark {

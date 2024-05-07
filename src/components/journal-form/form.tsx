@@ -25,7 +25,7 @@ const formSchema = z.object({
 export default function JournalForm() {
   const form = useForm({
     resolver: zodResolver(formSchema),
-    defaultValues: { mood: 4, dayDescription: "Today I am grateful for..." },
+    defaultValues: { mood: 4, dayDescription: "Today I am grateful for " },
   });
   const onSubmit = (data: z.infer<typeof formSchema>) => {
     console.log(data);
@@ -110,7 +110,7 @@ export default function JournalForm() {
                             e.preventDefault();
                             form.setValue(
                               "dayDescription",
-                              "Today I am grateful for...",
+                              "Today I am grateful for ",
                             );
                           }
                         }}

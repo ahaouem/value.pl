@@ -1,11 +1,5 @@
 import "@/styles/globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
-import { Inter } from "next/font/google";
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-sans",
-});
 
 export const metadata = {
   title: "Create T3 App",
@@ -21,7 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <ClerkProvider>
-        <body className={`font-sans ${inter.variable}`}>{children}</body>
+        <body className="font-sans">{children}</body>
       </ClerkProvider>
     </html>
   );
