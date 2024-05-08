@@ -12,8 +12,11 @@ import { int, sqliteTableCreator, text } from "drizzle-orm/sqlite-core";
 export const createTable = sqliteTableCreator((name) => `value_${name}`);
 
 export const journal_tag = createTable("journal_tag", {
+  id: int("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
   value: text("value", { length: 256 }).primaryKey(),
-  created_at: text("created_at").notNull(),
+  created_at: text("created_at")
+    .notNull()
+    .$defaultFn(() => new Date().toDateString()),
   updated_at: text("updated_at").$onUpdate(() => new Date().toDateString()),
 });
 
@@ -24,6 +27,8 @@ export const journal = createTable("journal", {
   mood: int("mood", { mode: "number" }),
   notes: text("notes", { length: 256 }),
   tags: text("tags", { length: 256 }).references(() => journal_tag.value),
-  created_at: text("created_at").notNull(),
+  created_at: text("created_at")
+    .notNull()
+    .$defaultFn(() => new Date().toDateString()),
   updated_at: text("updated_at").$onUpdate(() => new Date().toDateString()),
 });
