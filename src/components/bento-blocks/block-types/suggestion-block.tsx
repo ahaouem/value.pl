@@ -17,7 +17,7 @@ export default function SuggestionBlock() {
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 14 20"
-          className="absolute -right-4 -top-4 size-12 fill-violet-950/25 dark:fill-violet-200/25 lg:-right-9 lg:-top-9 lg:size-24"
+          className="absolute -right-2 -top-2.5 size-12 fill-violet-950/25 dark:fill-violet-200/25 lg:-right-6 lg:-top-7 lg:size-24"
         >
           <path
             className="cls-2"
