@@ -1,5 +1,3 @@
-"use client";
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import {
@@ -17,20 +15,34 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { MoodPicker } from "../mood-picker";
 import { Textarea } from "../ui/textarea";
+import { useSession, useUser, UserButton, SignInButton } from "@clerk/nextjs";
 
 const formSchema = z.object({
   mood: z.number(),
   dayDescription: z.string(),
+  userId: z.string(),
 });
+
 export default function JournalForm() {
+  const { user } = useUser();
+  const { session } = useSession();
+
+  if (!user || !session) return null;
+  const userId = user.id;
+
   const form = useForm({
     resolver: zodResolver(formSchema),
-    defaultValues: { mood: 3, dayDescription: "Today I am grateful for " },
+    defaultValues: {
+      mood: 3,
+      dayDescription: "Today I am grateful for...",
+      userId,
+    },
   });
+
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     const response = await fetch("/api/chat", {
       method: "POST",
-      body: JSON.stringify(data),
+      body: JSON.stringify(data + userId),
     });
     console.log(response);
     toast("Todays journal saved");

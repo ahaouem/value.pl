@@ -1,9 +1,6 @@
 // Example model schema from the Drizzle docs
 // https://orm.drizzle.team/docs/sql-schema-declaration
 
-import { te } from "date-fns/locale";
-import { BuildColumns, sql } from "drizzle-orm";
-
 import { int, sqliteTableCreator, text } from "drizzle-orm/sqlite-core";
 
 /**
@@ -24,7 +21,7 @@ export const journal = createTable("journal", {
   id: int("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
   userId: text("userId", { length: 256 }),
   date: text("date", { length: 256 }),
-  modod: int("mood", { mode: "number" }),
+  mood: int("mood", { mode: "number" }),
   notes: text("notes", { length: 256 }),
   tags: text("tags", { length: 256 }).references(() => journal_tag.value),
   created_at: text("created_at").notNull(),

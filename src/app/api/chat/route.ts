@@ -1,10 +1,15 @@
 import OpenAI from "openai";
+import { db } from "@/server/db";
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 import { formSchema } from "@/schemas";
 import { z } from "zod";
+import { journal } from "@/server/db/schema";
 
 export async function POST(req: Request) {
-  const { dayDescription } = (await req.json()) as z.infer<typeof formSchema>;
+  const { mood, dayDescription, userId } = (await req.json()) as z.infer<
+    typeof formSchema
+  >;
+
   try {
     const chatCompletion = await openai.chat.completions.create({
       messages: [
@@ -21,7 +26,20 @@ export async function POST(req: Request) {
 
       model: "gpt-4-turbo",
     });
+    console.log(req.json());
     console.log(chatCompletion.choices[0]);
+
+    db.insert(journal).values({
+      userId,
+      date: new Date().toDateString(),
+      mood: mood,
+      notes: dayDescription,
+      tags: chatCompletion.choices[0]?.message?.content
+        ? JSON.stringify(chatCompletion.choices[0].message.content)
+        : null,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    });
     return new Response(JSON.stringify({ ok: true }));
   } catch (e) {
     return new Response(JSON.stringify({ ok: false }));
