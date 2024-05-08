@@ -1,9 +1,14 @@
 import Journal from "@/components/journal";
 import JournalForm from "@/components/journal-form/form";
 import { db } from "@/server/db";
-import { journalTopics, journals, streaks, topics } from "@/server/db/schema";
+import {
+  journalTopics,
+  journals,
+  streaks,
+  topics as topicsTable,
+} from "@/server/db/schema";
 import { auth } from "@clerk/nextjs/server";
-import { and, count, desc, eq, sql } from "drizzle-orm";
+import { and, count, eq } from "drizzle-orm";
 type Journal = {
   date: string;
   id: string;
@@ -82,9 +87,9 @@ export default async function HomePage({
   }
 
   const topicsList = await db
-    .select({ value: topics.value, count: count(journalTopics.topicId) })
+    .select({ value: topicsTable.value, count: count(journalTopics.topicId) })
     .from(journalTopics)
-    .leftJoin(topics, eq(journalTopics.topicId, topics.id))
+    .leftJoin(topicsTable, eq(journalTopics.topicId, topicsTable.id))
     .leftJoin(journals, eq(journalTopics.journalId, journals.id))
     .where(
       and(
@@ -93,18 +98,12 @@ export default async function HomePage({
       ),
     );
 
-  // const topics = await db.query.journalTopics.findMany({
-  //   where: (model, { eq }) => eq(model.journalId, journal?.id ?? ""),
-  //   with: {
-  //     topic: true,
-  //   },
-  // });
-  console.log(topics);
   return journal ? (
     <Journal
-      dayDesc={journal.notes}
-      mood={journal.mood}
-      tags={topicsList.map((t) => t.value || "")}
+      data={{
+        ...journal,
+        topics: topicsList.map((t) => t.value).filter(Boolean) as string[],
+      }}
     />
   ) : (
     <>

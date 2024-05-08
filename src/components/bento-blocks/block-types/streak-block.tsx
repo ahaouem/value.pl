@@ -1,7 +1,12 @@
+import { cn } from "@/lib/utils";
 import { db } from "@/server/db";
 import { auth } from "@clerk/nextjs/server";
 
-export default async function StreakBlock() {
+export default async function StreakBlock({
+  isTodayStreak,
+}: {
+  isTodayStreak: boolean;
+}) {
   const { userId } = auth();
   const streak = await db.query.streaks.findFirst({
     where: (model, { eq }) => eq(model.userId, userId ?? ""),
@@ -12,7 +17,10 @@ export default async function StreakBlock() {
         <h2 className="text-xl font-bold lg:text-2xl">Current Streak</h2>
         <div className="relative flex size-16 items-center justify-center lg:mt-4 lg:size-24">
           <svg
-            className="absolute inset-0 -z-10 fill-amber-500/40"
+            className={cn(
+              "absolute inset-0 -z-10 fill-amber-500/10",
+              isTodayStreak && "fill-amber-500/60",
+            )}
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 448 512"
           >

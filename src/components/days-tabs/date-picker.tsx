@@ -46,7 +46,6 @@ export function DatePicker({
           mode="single"
           selected={value}
           onSelect={(value) => {
-            value?.setDate(value?.getDate() + 1);
             onChange?.(value ?? new Date());
             setOpen(false);
           }}
