@@ -3,8 +3,9 @@ import { db } from "@/server/db";
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 import { formSchema } from "@/schemas";
 import { z } from "zod";
-import { journals, journalTopics, topics } from "@/server/db/schema";
+import { journals, journalTopics, streaks, topics } from "@/server/db/schema";
 import { auth } from "@clerk/nextjs/server";
+import { eq, sql } from "drizzle-orm";
 
 export async function POST(req: Request) {
   const { userId } = auth();
@@ -12,16 +13,6 @@ export async function POST(req: Request) {
   const { mood, dayDescription, date } = (await req.json()) as z.infer<
     typeof formSchema
   > & { date: string };
-
-  const currentDate = await db
-    .select({ streak: journals.streak, date: journals.date })
-    .from(journals);
-
-  let todaysDate = new Date().toDateString();
-  let previousDate = new Date(todaysDate).getDate() - 1;
-
-  
-
 
   try {
     const chatCompletion = await openai.chat.completions.create({
@@ -76,6 +67,23 @@ export async function POST(req: Request) {
         }))
         .filter((t) => t.topicId !== ""),
     );
+
+    const streak = await db.query.streaks.findFirst({
+      where: (model, { eq }) => eq(model.userId, userId ?? ""),
+    });
+    if (streak) {
+      await db
+        .update(streaks)
+        .set({
+          value: streak.value + 1,
+        })
+        .where(eq(streaks.userId, userId ?? ""));
+    } else {
+      await db.insert(streaks).values({
+        userId: userId ?? "",
+        value: 1,
+      });
+    }
 
     return new Response(JSON.stringify({ ok: true }));
   } catch (e) {
