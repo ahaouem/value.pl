@@ -41,10 +41,12 @@ const GraphBlock = ({ moodData }: { moodData: any }) => {
           categories={["mood"]}
           colors={["blue"]}
           yAxisWidth={20}
-          maxValue={7}
+          maxValue={6}
           valueFormatter={(value) => moods[value - 1]?.emoji ?? ""}
-          minValue={1}
+          minValue={0}
           customTooltip={customTooltip}
+          showAnimation
+          animationDuration={750}
         />
       )}
     </>
