@@ -32,6 +32,7 @@
     "@tailwindcss/typography": "^0.5.13",
     "ai": "^3.1.1",
     "class-variance-authority": "^0.7.0",
+    "cuid": "^3.0.0",
     "drizzle-orm": "^0.30.10",
     "embla-carousel-react": "^8.0.4",
     "framer-motion": "^11.1.9",

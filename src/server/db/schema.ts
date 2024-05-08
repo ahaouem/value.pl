@@ -1,10 +1,14 @@
 import { relations } from "drizzle-orm";
 import { int, sqliteTableCreator, text } from "drizzle-orm/sqlite-core";
+import cuid from "cuid";
 
 export const createTable = sqliteTableCreator((name) => `value_${name}`);
 
 export const topics = createTable("topic", {
-  id: int("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
+  id: text("id")
+    .notNull()
+    .primaryKey()
+    .$defaultFn(() => cuid()),
   value: text("value", { length: 256 }).notNull(),
   created_at: text("created_at")
     .notNull()
@@ -16,7 +20,10 @@ export const topics = createTable("topic", {
 });
 
 export const journalTopics = createTable("journal_topic", {
-  id: int("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
+  id: text("id")
+    .notNull()
+    .primaryKey()
+    .$defaultFn(() => cuid()),
   journalId: int("journalId", { mode: "number" }).notNull(),
   topicId: int("topicId", { mode: "number" }).notNull(),
   created_at: text("created_at")
@@ -29,7 +36,10 @@ export const journalTopics = createTable("journal_topic", {
 });
 
 export const journals = createTable("journal", {
-  id: int("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
+  id: text("id")
+    .notNull()
+    .primaryKey()
+    .$defaultFn(() => cuid()),
   userId: text("userId", { length: 256 }).notNull(),
   date: text("date", { length: 256 }).notNull(),
   mood: int("mood", { mode: "number" }).notNull(),
