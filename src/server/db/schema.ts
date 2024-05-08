@@ -69,6 +69,21 @@ export const journals = createTable("journal", {
     .$defaultFn(() => new Date().toDateString()),
 });
 
+export const moods = createTable("mood", {
+  id: text("id")
+    .notNull()
+    .primaryKey()
+    .$defaultFn(() => cuid()),
+  value: int("value", { mode: "number" }).notNull(),
+  created_at: text("created_at")
+    .notNull()
+    .$defaultFn(() => new Date().toDateString()),
+  updated_at: text("updated_at")
+    .$onUpdate(() => new Date().toDateString())
+    .notNull()
+    .$defaultFn(() => new Date().toDateString()),
+});
+
 export const journalRelations = relations(journals, ({ many }) => ({
   topics: many(topics, { relationName: "journalTopics" }),
 }));
@@ -86,4 +101,8 @@ export const journalTopicsRelations = relations(journalTopics, ({ one }) => ({
     fields: [journalTopics.topicId],
     references: [topics.id],
   }),
+}));
+
+export const topicMoodRelations = relations(topics, ({ many }) => ({
+  moods: many(moods, { relationName: "topicMoods" }),
 }));
