@@ -10,13 +10,17 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Loader2 } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useSession, useUser } from "@clerk/nextjs";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 import { MoodPicker } from "../mood-picker";
 import { Textarea } from "../ui/textarea";
-import { useSession, useUser, UserButton, SignInButton } from "@clerk/nextjs";
 
 const formSchema = z.object({
   mood: z.number(),
@@ -24,9 +28,11 @@ const formSchema = z.object({
   userId: z.string(),
 });
 
-export default function JournalForm() {
+export default function JournalForm({ date }: { date: string }) {
   const { user } = useUser();
+  const [loading, setLoading] = useState(false);
   const { session } = useSession();
+  const router = useRouter();
 
   if (!user || !session) return null;
   const userId = user.id;
@@ -42,12 +48,18 @@ export default function JournalForm() {
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     data = { ...data, userId };
+    setLoading(true);
     const response = await fetch("/api/chat", {
       method: "POST",
-      body: JSON.stringify(data),
+      body: JSON.stringify({ ...data, date }),
     });
-    console.log(response);
-    toast("Todays journal saved");
+    if (response.ok) {
+      toast.success("Journal entry saved successfully");
+      router.refresh();
+    } else {
+      toast.error("Failed to save journal entry");
+    }
+    setLoading(false);
   };
 
   return (
@@ -118,7 +130,21 @@ export default function JournalForm() {
             )}
           />
         </Card>
-        <Button type="submit">Save</Button>
+        <Button
+          type="submit"
+          disabled={loading}
+          className={cn(
+            "relative",
+            loading
+              ? "text-transparent [&_svg]:stroke-primary-foreground"
+              : "text-primary-foreground [&_svg]:stroke-transparent",
+          )}
+        >
+          Save
+          <div className="absolute left-1/2 top-1/2 grid -translate-x-1/2 -translate-y-1/2 place-content-center">
+            <Loader2 className="animate-spin" />
+          </div>
+        </Button>
       </form>
     </Form>
   );
