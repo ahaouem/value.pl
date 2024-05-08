@@ -1,24 +1,7 @@
-"use client"
+"use client";
 import { CustomTooltipProps, LineChart } from "@tremor/react";
-import { useEffect, useState } from "react";
 
-const GraphBlock = () => {
-  const [journalData, setJournalData] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('/journal');
-        const data = await response.json();
-        setJournalData(data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
+const GraphBlock = ({ moodData }: { moodData: any }) => {
   const moods = [
     { emoji: "😔", tooltip: "anxious" },
     { emoji: "😞", tooltip: "worried" },
@@ -47,19 +30,24 @@ const GraphBlock = () => {
   const classNames = ["stroke-blue-500 fill-blue-500"];
 
   return (
-    <LineChart
-      className="m-0 h-full w-full p-0 [&_svg]:overflow-visible"
-      data={journalData}
-      index="date"
-      showLegend={false}
-      categories={["value"]} 
-      colors={["blue"]}
-      yAxisWidth={20}
-      maxValue={7}
-      valueFormatter={(value) => moods[value - 1]?.emoji ?? ""}
-      minValue={1}
-      customTooltip={customTooltip}
-    />
+    <>
+      {moodData.length === 0 && <div>No data</div>}
+      {moodData.length > 0 && (
+        <LineChart
+          className="m-0 h-full w-full p-0 [&_svg]:overflow-visible"
+          data={moodData}
+          index="date"
+          showLegend={false}
+          categories={["mood"]}
+          colors={["blue"]}
+          yAxisWidth={20}
+          maxValue={7}
+          valueFormatter={(value) => moods[value - 1]?.emoji ?? ""}
+          minValue={1}
+          customTooltip={customTooltip}
+        />
+      )}
+    </>
   );
 };
 
