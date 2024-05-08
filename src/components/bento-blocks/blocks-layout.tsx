@@ -7,8 +7,12 @@ import {
   StreakBlock,
   SuggestionBlock,
 } from "./block-types";
+import { db } from "@/server/db";
+import { journals } from "@/server/db/schema";
 
-export default function BlocksLayout() {
+export default async function BlocksLayout() {
+  const moodData = await db.select({ mood: journals.mood }).from(journals);
+
   return (
     <section className="grid h-full grid-cols-1 gap-4 bg-transparent lg:grid-cols-3">
       <WobbleCard containerClassName="col-span-1 lg:col-span-2 h-full bg-violet-200">
@@ -24,7 +28,7 @@ export default function BlocksLayout() {
       </WobbleCard>
 
       <WobbleCard containerClassName="col-span-1 lg:col-span-2 bg-sky-200 min-h-[12rem]">
-        <GraphBlock />
+        <GraphBlock moodData={moodData} />
       </WobbleCard>
 
       <WobbleCard containerClassName="col-span-1 lg:col-span-3 bg-green-200">
