@@ -15,11 +15,14 @@ export default function Journal({
         {moods[mood]?.emoji} {moods[mood]?.tooltip}
       </h2>
       <p>{dayDesc}</p>
-      <ul>
+      <div>Tags:</div>
+      <div>
         {tags.map((tag) => (
-          <li key={tag}>{tag}</li>
+          <span key={tag} className="rounded-xl bg-emerald-400 px-2 py-1">
+            {tag}
+          </span>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }

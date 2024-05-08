@@ -3,7 +3,7 @@ import { db } from "@/server/db";
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 import { formSchema } from "@/schemas";
 import { z } from "zod";
-import { journal } from "@/server/db/schema";
+import { journal, journal_tag } from "@/server/db/schema";
 
 export async function POST(req: Request) {
   const { mood, dayDescription, userId } = (await req.json()) as z.infer<
@@ -28,6 +28,45 @@ export async function POST(req: Request) {
     });
     console.log(req.json());
     console.log(chatCompletion.choices[0]);
+
+    const json: {
+      topics: string[];
+      TP: string[];
+      FP: string[];
+      TN: string[];
+      FN: string[];
+    } = JSON.parse(chatCompletion.choices[0]?.message.content || "");
+
+    let topics= [];
+    await json.topics.forEach(async (topic) => {
+      topics.push(await db.insert(journal_tag).values({
+        value: topic,
+    }).returning())
+
+    let TPs= [];
+    await json.TP.forEach(async (topic) => {
+      TPs.push(await db.insert(journal_tag).values({
+        value: topic,
+    }).returning())
+
+    let TNs= [];
+    await json.TN.forEach(async (topic) => {
+      TNs.push(await db.insert(journal_tag).values({
+        value: topic,
+    }).returning())
+
+    let FPs= [];
+    await json.FP.forEach(async (topic) => {
+      FPs.push(await db.insert(journal_tag).values({
+        value: topic,
+    }).returning())
+    
+    
+    let FNs= [];
+    await json.FN.forEach(async (topic) => {
+      FNs.push(await db.insert(journal_tag).values({
+        value: topic,
+    }).returning())
 
     db.insert(journal).values({
       userId,
