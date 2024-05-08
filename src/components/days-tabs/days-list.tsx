@@ -132,7 +132,7 @@ export default function DaysList({ firstDate }: { firstDate: Date }) {
                     "?" +
                     createQueryString("date", date.toDateString()),
                 );
-              }, 350),
+              }, 400),
             );
           }}
           disabled={[
@@ -172,7 +172,7 @@ export default function DaysList({ firstDate }: { firstDate: Date }) {
           setTimeoutValue(
             setTimeout(() => {
               router.push(pathname + "?" + createQueryString("date", v));
-            }, 350),
+            }, 400),
           );
         }}
       >
