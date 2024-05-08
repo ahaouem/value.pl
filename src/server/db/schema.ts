@@ -44,6 +44,9 @@ export const journals = createTable("journal", {
   date: text("date", { length: 256 }).notNull(),
   mood: int("mood", { mode: "number" }).notNull(),
   notes: text("notes", { length: 256 }).notNull(),
+  streak: int("streak", { mode: "number" })
+    .notNull()
+    .$default(() => 0),
   created_at: text("created_at")
     .notNull()
     .$defaultFn(() => new Date().toDateString()),

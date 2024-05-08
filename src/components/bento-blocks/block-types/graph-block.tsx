@@ -1,67 +1,24 @@
-"use client";
-
+"use client"
 import { CustomTooltipProps, LineChart } from "@tremor/react";
+import { useEffect, useState } from "react";
 
-const chartdata = [
-  {
-    date: new Date("2024-05-02").toLocaleString("en-US", {
-      month: "long",
-      day: "numeric",
-      year: "numeric",
-    }),
-    value: 7,
-  },
-  {
-    date: new Date("2024-05-03").toLocaleString("en-US", {
-      month: "long",
-      day: "numeric",
-      year: "numeric",
-    }),
-    value: 5,
-  },
-  {
-    date: new Date("2024-05-04").toLocaleString("en-US", {
-      month: "long",
-      day: "numeric",
-      year: "numeric",
-    }),
-    value: 3,
-  },
-  {
-    date: new Date("2024-05-05").toLocaleString("en-US", {
-      month: "long",
-      day: "numeric",
-      year: "numeric",
-    }),
-    value: 7,
-  },
-  {
-    date: new Date("2024-05-06").toLocaleString("en-US", {
-      month: "long",
-      day: "numeric",
-      year: "numeric",
-    }),
-    value: 2,
-  },
-  {
-    date: new Date("2024-05-07").toLocaleString("en-US", {
-      month: "long",
-      day: "numeric",
-      year: "numeric",
-    }),
-    value: 5,
-  },
-  {
-    date: new Date("2024-05-08").toLocaleString("en-US", {
-      month: "long",
-      day: "numeric",
-      year: "numeric",
-    }),
-    value: 4,
-  },
-];
+const GraphBlock = () => {
+  const [journalData, setJournalData] = useState([]);
 
-export default function GraphBlock() {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('/journal');
+        const data = await response.json();
+        setJournalData(data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const moods = [
     { emoji: "😔", tooltip: "anxious" },
     { emoji: "😞", tooltip: "worried" },
@@ -71,6 +28,7 @@ export default function GraphBlock() {
     { emoji: "😄", tooltip: "happy" },
     { emoji: "😊", tooltip: "serene" },
   ];
+
   const customTooltip = (props: CustomTooltipProps) => {
     const { payload, active } = props;
     if (!active || !payload) return null;
@@ -85,14 +43,16 @@ export default function GraphBlock() {
       </div>
     );
   };
+
   const classNames = ["stroke-blue-500 fill-blue-500"];
+
   return (
     <LineChart
       className="m-0 h-full w-full p-0 [&_svg]:overflow-visible"
-      data={chartdata}
+      data={journalData}
       index="date"
       showLegend={false}
-      categories={["value"]}
+      categories={["value"]} 
       colors={["blue"]}
       yAxisWidth={20}
       maxValue={7}
@@ -101,4 +61,6 @@ export default function GraphBlock() {
       customTooltip={customTooltip}
     />
   );
-}
+};
+
+export default GraphBlock;
