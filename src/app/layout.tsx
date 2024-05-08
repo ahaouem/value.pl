@@ -1,3 +1,4 @@
+import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import "@/styles/globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
@@ -16,7 +17,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <ClerkProvider>
-        <body className="font-sans">{children}</body>
+        <body className="font-sans">
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+          </ThemeProvider>
+        </body>
         <Toaster />
       </ClerkProvider>
     </html>
