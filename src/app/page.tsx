@@ -1,8 +1,6 @@
 import Journal from "@/components/journal";
 import JournalForm from "@/components/journal-form/form";
-import LeftSection from "@/components/left-section";
 import { db } from "@/server/db";
-import { journalTopics } from "@/server/db/schema";
 import { auth } from "@clerk/nextjs/server";
 
 type Journal = {
@@ -21,8 +19,9 @@ type Journal = {
 export default async function HomePage({
   searchParams: { date },
 }: {
-  searchParams: { date: string };
+  searchParams: { date?: string | null };
 }) {
+  if (!date) return null;
   const { userId } = auth();
   const journal = await db.query.journals.findFirst({
     where: (model, { eq, and }) =>
@@ -32,32 +31,11 @@ export default async function HomePage({
     where: (model, { eq }) => eq(model.journalId, journal?.id ?? ""),
   });
   console.log(c);
-
   return journal ? (
     <Journal dayDesc={journal.notes} mood={journal.mood} tags={[]} />
   ) : (
     <>
-      <JournalForm />
+      <JournalForm date={date} />
     </>
   );
-
-  // {calendar[currentWeekIndex]?.map((day, dayIndex) => (
-  //   <TabsContent key={dayIndex} value={day.date}>
-  //     {journals.find((journal) => journal.date === day.date) ? (
-  //       <Journal
-  //         dayDesc={
-  //           journals.find((journal) => journal.date === day.date)
-  //             ?.notes ?? ""
-  //         }
-  //         mood={
-  //           journals.find((journal) => journal.date === day.date)?.mood ??
-  //           0
-  //         }
-  //         tags={[]}
-  //       />
-  //     ) : (
-  //       <JournalForm />
-  //     )}
-  //   </TabsContent>
-  // ))}
 }
