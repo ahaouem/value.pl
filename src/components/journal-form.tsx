@@ -19,8 +19,8 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-import { MoodPicker } from "../mood-picker";
-import { Textarea } from "../ui/textarea";
+import { MoodPicker } from "./mood-picker";
+import { Textarea } from "./ui/textarea";
 
 const formSchema = z.object({
   mood: z.number(),

@@ -1,5 +1,5 @@
 import Journal from "@/components/journal";
-import JournalForm from "@/components/journal-form/form";
+import JournalForm from "@/components/journal-form";
 import { db } from "@/server/db";
 import {
   journalTopics,

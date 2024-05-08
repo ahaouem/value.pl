@@ -1,5 +1,7 @@
-import React from "react";
-import { WobbleCard } from "./wobble-card";
+import { db } from "@/server/db";
+import { journalTopics, journals, topics } from "@/server/db/schema";
+import { auth } from "@clerk/nextjs/server";
+import { count, desc, eq, not } from "drizzle-orm";
 import {
   GraphBlock,
   QuoteBlock,
@@ -7,10 +9,7 @@ import {
   StreakBlock,
   SuggestionBlock,
 } from "./block-types";
-import { db } from "@/server/db";
-import { journalTopics, journals, topics } from "@/server/db/schema";
-import { auth } from "@clerk/nextjs/server";
-import { desc, eq, count, and, not } from "drizzle-orm";
+import { WobbleCard } from "./wobble-card";
 
 export default async function BlocksLayout() {
   const { userId } = auth();
