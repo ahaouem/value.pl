@@ -21,26 +21,24 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <ClerkProvider>
-        <body className="font-sans">
-          <main className="grid min-h-screen lg:grid-cols-2">
-            <LeftSection>{children}</LeftSection>
-            <Drawer>
-              <DrawerTrigger className="fixed inset-x-0 bottom-0 h-8 bg-background lg:hidden">
-                <div className="mx-auto h-2 w-[100px] rounded-full bg-muted" />
-              </DrawerTrigger>
-              <DrawerContent className="h-[calc(100vh-1rem)]">
-                <ScrollArea>
-                  <RightSection mobile />
-                </ScrollArea>
-              </DrawerContent>
-            </Drawer>
+      <body className="font-sans">
+        <main className="grid min-h-screen lg:grid-cols-2">
+          <LeftSection>{children}</LeftSection>
+          <Drawer>
+            <DrawerTrigger className="fixed inset-x-0 bottom-0 h-8 bg-background lg:hidden">
+              <div className="mx-auto h-2 w-[100px] rounded-full bg-muted" />
+            </DrawerTrigger>
+            <DrawerContent className="h-[calc(100vh-1rem)]">
+              <ScrollArea>
+                <RightSection mobile />
+              </ScrollArea>
+            </DrawerContent>
+          </Drawer>
 
-            <RightSection />
-          </main>
-        </body>
-        <Toaster />
-      </ClerkProvider>
+          <RightSection />
+        </main>
+      </body>
+      <Toaster />
     </html>
   );
 }
