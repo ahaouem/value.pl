@@ -3,6 +3,7 @@ import { drizzle } from "drizzle-orm/libsql";
 
 import { env } from "@/env";
 import * as schema from "./schema";
+import { sql } from "drizzle-orm";
 
 /**
  * Cache the database connection in development. This avoids creating a new connection on every HMR
