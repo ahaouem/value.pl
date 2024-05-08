@@ -17,7 +17,10 @@ export const journal_tag = createTable("journal_tag", {
   created_at: text("created_at")
     .notNull()
     .$defaultFn(() => new Date().toDateString()),
-  updated_at: text("updated_at").$onUpdate(() => new Date().toDateString()),
+  updated_at: text("updated_at")
+    .$onUpdate(() => new Date().toDateString())
+    .notNull()
+    .$defaultFn(() => new Date().toDateString()),
 });
 
 export const journal = createTable("journal", {
@@ -26,9 +29,16 @@ export const journal = createTable("journal", {
   date: text("date", { length: 256 }),
   mood: int("mood", { mode: "number" }),
   notes: text("notes", { length: 256 }),
-  tags: text("tags", { length: 256 }).references(() => journal_tag.value),
+  topics: text("tags", { length: 256 }).references(() => journal_tag.value),
   created_at: text("created_at")
     .notNull()
     .$defaultFn(() => new Date().toDateString()),
-  updated_at: text("updated_at").$onUpdate(() => new Date().toDateString()),
+  TP: text("tags", { length: 256 }).references(() => journal_tag.value),
+  TN: text("tags", { length: 256 }).references(() => journal_tag.value),
+  FP: text("tags", { length: 256 }).references(() => journal_tag.value),
+  FN: text("tags", { length: 256 }).references(() => journal_tag.value),
+  updated_at: text("updated_at")
+    .$onUpdate(() => new Date().toDateString())
+    .notNull()
+    .$defaultFn(() => new Date().toDateString()),
 });
