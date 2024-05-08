@@ -1,6 +1,6 @@
 export default function StreakBlock() {
   return (
-    <div className="h-34 mx-auto max-w-md rounded-lg text-amber-950">
+    <div className="mx-auto max-w-md rounded-lg text-amber-950">
       <div className="mb-6 flex flex-col items-center justify-between">
         <h2 className="text-2xl font-bold">Current Streak</h2>
         <div className="relative mt-4 flex h-24 w-24 items-center justify-center">
