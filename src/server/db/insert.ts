@@ -4,7 +4,7 @@ import { db } from ".";
 const insertJournal = async () => {
   await db.insert(journal).values([
     {
-      id:1,
+      id: 1,
       userId: 1,
       date: "2024-05-07",
       mood: 3,

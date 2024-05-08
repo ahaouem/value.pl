@@ -41,23 +41,23 @@ export default async function BlocksLayout() {
 
   return (
     <section className="grid h-full grid-cols-1 gap-4 bg-transparent lg:grid-cols-3">
-      <WobbleCard containerClassName="col-span-1 lg:col-span-2 h-full bg-violet-200">
+      <WobbleCard containerClassName="col-span-1 lg:col-span-2 h-full bg-violet-200 dark:bg-violet-950">
         <SuggestionBlock />
       </WobbleCard>
 
-      <WobbleCard containerClassName="col-span-1 bg-rose-200">
+      <WobbleCard containerClassName="col-span-1 bg-rose-200 dark:bg-rose-950">
         <RankBlock rankData={rankData} />
       </WobbleCard>
 
-      <WobbleCard containerClassName="col-span-1 bg-amber-200">
+      <WobbleCard containerClassName="col-span-1 bg-amber-200 dark:bg-amber-950">
         <StreakBlock isTodayStreak={isTodayStreak} />
       </WobbleCard>
 
-      <WobbleCard containerClassName="col-span-1 lg:col-span-2 bg-sky-200 min-h-[12rem]">
+      <WobbleCard containerClassName="col-span-1 lg:col-span-2 bg-sky-200 min-h-[12rem] dark:bg-sky-950">
         <GraphBlock moodData={moodData} />
       </WobbleCard>
 
-      <WobbleCard containerClassName="col-span-1 lg:col-span-3 bg-green-200">
+      <WobbleCard containerClassName="col-span-1 lg:col-span-3 bg-green-200 dark:bg-green-950">
         <QuoteBlock />
       </WobbleCard>
     </section>

@@ -9,6 +9,8 @@
     "db:studio": "drizzle-kit studio",
     "dev": "next dev --turbo",
     "lint": "next lint",
+    "format": "prettier --write .",
+    "lint:fix": "eslint . --fix",
     "start": "next start"
   },
   "dependencies": {
