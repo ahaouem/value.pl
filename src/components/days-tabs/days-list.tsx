@@ -11,7 +11,7 @@ import JournalForm from "../journal-form/form";
 
 type Journal = {
   date: string;
-  id: number;
+  id: string;
   created_at: string;
   updated_at: string;
   userId: string;
