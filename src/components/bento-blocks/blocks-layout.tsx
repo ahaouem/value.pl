@@ -9,11 +9,15 @@ import {
 } from "./block-types";
 import { db } from "@/server/db";
 import { journals } from "@/server/db/schema";
+import { auth } from "@clerk/nextjs/server";
+import { eq } from "drizzle-orm";
 
 export default async function BlocksLayout() {
+  const { userId } = auth();
   const moodData = await db
     .select({ date: journals.date, mood: journals.mood })
-    .from(journals);
+    .from(journals)
+    .where(eq(journals.userId, userId ?? ""));
 
   return (
     <section className="grid h-full grid-cols-1 gap-4 bg-transparent lg:grid-cols-3">

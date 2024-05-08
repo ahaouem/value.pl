@@ -50,9 +50,11 @@ const GraphBlock = ({
           colors={["blue"]}
           yAxisWidth={20}
           maxValue={6}
-          valueFormatter={(value) => moods[value]?.emoji ?? ""}
+          valueFormatter={(value) => moods[value - 1]?.emoji ?? ""}
           minValue={0}
           customTooltip={customTooltip}
+          showAnimation
+          animationDuration={750}
         />
       )}
     </>
