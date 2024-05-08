@@ -1,5 +1,10 @@
 import { cn } from "@/lib/utils";
-
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 export function MoodPicker({
   value,
   onChange,
@@ -9,26 +14,39 @@ export function MoodPicker({
   value: number;
   onChange: (value: number) => void;
 } & React.HTMLAttributes<HTMLDivElement>) {
-  const moods = ["😔", "😞", "😕", "😐", "😃", "😄", "😊"];
+  const moods = [
+    { emoji: "😔", tooltip: "anxious" },
+    { emoji: "😞", tooltip: "worried" },
+    { emoji: "😕", tooltip: "uneasy" },
+    { emoji: "😐", tooltip: "unsure" },
+    { emoji: "😃", tooltip: "calm" },
+    { emoji: "😄", tooltip: "happy" },
+    { emoji: "😊", tooltip: "serene" },
+  ];
   return (
     <div
       className={cn("flex w-full flex-row justify-between", className)}
       {...props}
     >
       {moods.map((mood, idx) => (
-        <button
-          type="button"
-          onClick={() => onChange(idx)}
-          key={idx}
-          className={cn(
-            "transform text-2xl transition-all hover:scale-105 md:text-4xl lg:text-6xl",
-            idx === value
-              ? "scale-125 hover:scale-125"
-              : "opacity-70 hover:opacity-90",
-          )}
-        >
-          {mood}
-        </button>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger
+              onClick={() => onChange(idx)}
+              key={idx}
+              type="button"
+              className={cn(
+                "transform text-2xl transition-all hover:scale-105 md:text-4xl lg:text-6xl",
+                idx === value
+                  ? "scale-125 hover:scale-125"
+                  : "opacity-70 hover:opacity-90",
+              )}
+            >
+              {mood.emoji}
+            </TooltipTrigger>
+            <TooltipContent>{mood.tooltip}</TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       ))}
     </div>
   );
