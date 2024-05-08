@@ -5,7 +5,7 @@ import { formSchema } from "@/schemas";
 import { z } from "zod";
 import { journals, journalTopics, streaks, topics } from "@/server/db/schema";
 import { auth } from "@clerk/nextjs/server";
-import { eq, sql } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 
 export async function POST(req: Request) {
   const { userId } = auth();

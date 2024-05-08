@@ -35,14 +35,22 @@ export default async function HomePage({
       and(
         eq(model.date, yesterday.toDateString()),
         eq(model.userId, userId ?? ""),
+        eq(model.created_at, yesterday.toDateString()),
+      ),
+  });
+  const todaysJournal = await db.query.journals.findFirst({
+    where: (model, { eq, and }) =>
+      and(
+        eq(model.date, new Date().toDateString()),
+        eq(model.userId, userId ?? ""),
+        eq(model.created_at, new Date().toDateString()),
       ),
   });
 
-  if (!yesterdaysJournal) {
-    const streak = await db.query.streaks.findFirst({
-      where: (model, { eq }) => eq(model.userId, userId ?? ""),
-    });
-
+  const streak = await db.query.streaks.findFirst({
+    where: (model, { eq }) => eq(model.userId, userId ?? ""),
+  });
+  if (!yesterdaysJournal && !todaysJournal) {
     if (streak) {
       await db
         .update(streaks)
@@ -54,6 +62,21 @@ export default async function HomePage({
       await db.insert(streaks).values({
         userId: userId ?? "",
         value: 0,
+      });
+    }
+  }
+  if (!yesterdaysJournal && todaysJournal) {
+    if (streak) {
+      await db
+        .update(streaks)
+        .set({
+          value: 1,
+        })
+        .where(eq(streaks.userId, userId ?? ""));
+    } else {
+      await db.insert(streaks).values({
+        userId: userId ?? "",
+        value: 1,
       });
     }
   }
