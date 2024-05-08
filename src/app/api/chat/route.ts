@@ -3,10 +3,12 @@ import { db } from "@/server/db";
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 import { formSchema } from "@/schemas";
 import { z } from "zod";
-import { journal, journal_tag, topics } from "@/server/db/schema";
+import { journals, journalTopics, topics } from "@/server/db/schema";
+import { auth } from "@clerk/nextjs/server";
 
 export async function POST(req: Request) {
-  const { mood, dayDescription, userId } = (await req.json()) as z.infer<
+  const { userId } = auth();
+  const { mood, dayDescription } = (await req.json()) as z.infer<
     typeof formSchema
   >;
 
@@ -28,7 +30,6 @@ export async function POST(req: Request) {
       model: "gpt-4-turbo",
     });
 
-    console.log(chatCompletion.choices[0]);
     const json: {
       topics: string[];
       TP: string[];
@@ -37,18 +38,36 @@ export async function POST(req: Request) {
       FN: string[];
     } = JSON.parse(chatCompletion?.choices[0]?.message?.content ?? "null");
 
-    const journalId = await db
-      .insert(journal)
+    const addedJournal = await db
+      .insert(journals)
       .values({
-        userId,
+        userId: userId!,
         date: new Date().toDateString(),
         mood: mood,
         notes: dayDescription,
       })
-      .returning(journal.id);
+      .returning();
+
+    console.log(addedJournal);
+
+    const topics = await db.query.topics.findMany();
+
+    const test = json.topics.map((t) => ({
+      topicId: topics.find((topic) => topic.value === t)?.id || "",
+      journalId: addedJournal?.[0]?.id || "",
+    }));
+    console.log(test);
+
+    await db.insert(journalTopics).values(
+      json.topics.map((t) => ({
+        topicId: topics.find((topic) => topic.value === t)?.id || "",
+        journalId: addedJournal?.[0]?.id || "",
+      })),
+    );
 
     return new Response(JSON.stringify({ ok: true }));
   } catch (e) {
+    console.error(e);
     return new Response(JSON.stringify({ ok: false }));
   }
 }
