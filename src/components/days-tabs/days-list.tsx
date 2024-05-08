@@ -101,7 +101,6 @@ export default function DaysList({
   }
 
   const calendar = getCalendarData(firstDate);
-
   return (
     <div>
       <div className="flex items-center justify-between sm:px-6">
@@ -200,7 +199,7 @@ export default function DaysList({
                 tags={[]}
               />
             ) : (
-              <JournalForm />
+              <JournalForm date={day.date} />
             )}
           </TabsContent>
         ))}

@@ -47,10 +47,10 @@ export const journals = createTable("journal", {
   created_at: text("created_at")
     .notNull()
     .$defaultFn(() => new Date().toDateString()),
-  TP: text("tags", { length: 256 }).references(() => topics.value),
-  TN: text("tags", { length: 256 }).references(() => topics.value),
-  FP: text("tags", { length: 256 }).references(() => topics.value),
-  FN: text("tags", { length: 256 }).references(() => topics.value),
+  TP: text("tags", { length: 256 }).references(() => topics.id),
+  TN: text("tags", { length: 256 }).references(() => topics.id),
+  FP: text("tags", { length: 256 }).references(() => topics.id),
+  FN: text("tags", { length: 256 }).references(() => topics.id),
   updated_at: text("updated_at")
     .$onUpdate(() => new Date().toDateString())
     .notNull()

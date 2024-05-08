@@ -8,9 +8,9 @@ import { auth } from "@clerk/nextjs/server";
 
 export async function POST(req: Request) {
   const { userId } = auth();
-  const { mood, dayDescription } = (await req.json()) as z.infer<
+  const { mood, dayDescription, date } = (await req.json()) as z.infer<
     typeof formSchema
-  >;
+  > & { date: string };
 
   try {
     const chatCompletion = await openai.chat.completions.create({
@@ -42,7 +42,7 @@ export async function POST(req: Request) {
       .insert(journals)
       .values({
         userId: userId!,
-        date: new Date().toDateString(),
+        date,
         mood: mood,
         notes: dayDescription,
       })
@@ -59,10 +59,12 @@ export async function POST(req: Request) {
     console.log(test);
 
     await db.insert(journalTopics).values(
-      json.topics.map((t) => ({
-        topicId: topics.find((topic) => topic.value === t)?.id || "",
-        journalId: addedJournal?.[0]?.id || "",
-      })),
+      json.topics
+        .map((t) => ({
+          topicId: topics.find((topic) => topic.value === t)?.id || "",
+          journalId: addedJournal?.[0]?.id || "",
+        }))
+        .filter((t) => t.topicId !== ""),
     );
 
     return new Response(JSON.stringify({ ok: true }));
