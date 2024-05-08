@@ -14,7 +14,7 @@ export default function RankBlock({
       </h2>
       <ul className="space-y-1">
         {rankData.length === 0 ? (
-          <div className="grid h-full w-full grid-cols-1 grid-rows-1 place-content-center">
+          <div className="grid h-full w-full place-content-center">
             Add some journal entries to see your mood graph!
           </div>
         ) : null}
