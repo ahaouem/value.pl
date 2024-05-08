@@ -8,6 +8,7 @@ import LeftSection from "@/components/left-section";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
+import { ThemeProvider } from "@/components/theme-provider";
 export const metadata = {
   title: "ur Value",
   description: "Journal with us!",
@@ -27,21 +28,28 @@ export default function RootLayout({
     <html lang="en">
       <ClerkProvider>
         <body className="font-sans">
-          <main className="grid min-h-screen lg:grid-cols-2">
-            <LeftSection>{children}</LeftSection>
-            <Drawer>
-              <DrawerTrigger className="fixed inset-x-0 bottom-0 h-8 bg-background lg:hidden">
-                <div className="mx-auto h-2 w-[100px] rounded-full bg-muted" />
-              </DrawerTrigger>
-              <DrawerContent className="h-[calc(100vh-1rem)]">
-                <ScrollArea>
-                  <RightSection mobile />
-                </ScrollArea>
-              </DrawerContent>
-            </Drawer>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <main className="grid min-h-screen lg:grid-cols-2">
+              <LeftSection>{children}</LeftSection>
+              <Drawer>
+                <DrawerTrigger className="fixed inset-x-0 bottom-0 h-8 bg-background lg:hidden">
+                  <div className="mx-auto h-2 w-[100px] rounded-full bg-muted" />
+                </DrawerTrigger>
+                <DrawerContent className="h-[calc(100vh-1rem)]">
+                  <ScrollArea>
+                    <RightSection mobile />
+                  </ScrollArea>
+                </DrawerContent>
+              </Drawer>
 
-            <RightSection />
-          </main>
+              <RightSection />
+            </main>
+          </ThemeProvider>
         </body>
         <Toaster />
       </ClerkProvider>

@@ -24,7 +24,7 @@ const GraphBlock = ({
     if (!active || !payload) return null;
 
     return (
-      <div className="flex items-center justify-center rounded-md border-none bg-white p-2 text-center">
+      <div className="flex items-center justify-center rounded-md border-none bg-background p-2 text-center">
         {payload.map((category, idx) => (
           <p key={idx} className="font-medium">
             {moods[(category?.value as number) ?? 0]?.tooltip}
@@ -37,8 +37,6 @@ const GraphBlock = ({
     (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
   );
 
-  const classNames = ["stroke-blue-500 fill-blue-500"];
-
   return (
     <>
       {moodData.length === 0 && (
@@ -48,7 +46,7 @@ const GraphBlock = ({
       )}
       {moodData.length > 0 && (
         <LineChart
-          className="m-0 h-full w-full p-0 [&_svg]:overflow-visible"
+          className="![&_svg>g:has(.stroke-blue-500)]:stroke-red-500 m-0 h-full w-full p-0 [&_svg]:overflow-visible"
           data={moodData}
           index="date"
           showLegend={false}

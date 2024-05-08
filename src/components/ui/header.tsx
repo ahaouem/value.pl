@@ -1,8 +1,8 @@
 "use client";
 import { motion } from "framer-motion";
 
+import { UserButton, useSession, useUser } from "@clerk/nextjs";
 import { HeroHighlight } from "./hero-highlight";
-import { useSession, useUser, UserButton, SignInButton } from "@clerk/nextjs";
 
 export default function HelloHeader() {
   const { user } = useUser();

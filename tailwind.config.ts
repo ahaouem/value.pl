@@ -50,6 +50,36 @@ const config = {
             inverted: colors.white,
           },
         },
+        "dark-tremor": {
+          brand: {
+            faint: colors.blue[950],
+            muted: colors.blue[700],
+            subtle: colors.blue[600],
+            DEFAULT: colors.blue[500],
+            emphasis: colors.blue[400],
+            inverted: colors.black,
+          },
+          background: {
+            muted: colors.sky[950],
+            subtle: colors.sky[800],
+            DEFAULT: colors.black,
+            emphasis: colors.sky[400],
+          },
+          border: {
+            DEFAULT: colors.sky[400],
+          },
+          ring: {
+            DEFAULT: colors.sky[700],
+          },
+          content: {
+            subtle: colors.sky[200],
+            DEFAULT: colors.sky[200],
+            emphasis: colors.sky[300],
+            strong: colors.sky[200],
+            inverted: colors.white,
+          },
+        },
+
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

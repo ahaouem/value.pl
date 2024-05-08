@@ -56,7 +56,7 @@ export const WobbleCard = ({
             transition: "transform 0.1s ease-out",
           }}
           transition={{ type: "spring", stiffness: 1000, damping: 20 }}
-          className={cn("h-full px-4 py-6 lg:py-14 sm:px-10", className)}
+          className={cn("h-full px-4 py-6 sm:px-10 lg:py-14", className)}
         >
           <Noise />
           {children}

@@ -17,7 +17,7 @@ export default function SuggestionBlock() {
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 14 20"
-          className="absolute size-12 fill-violet-950/25 lg:-right-9 lg:-top-9 lg:size-24"
+          className="absolute -right-4 -top-4 size-12 fill-violet-950/25 dark:fill-violet-200/25 lg:-right-9 lg:-top-9 lg:size-24"
         >
           <path
             className="cls-2"
@@ -29,10 +29,10 @@ export default function SuggestionBlock() {
           />
         </svg>
         <section>
-          <h2 className="text-balance text-left text-base/6 tracking-[-0.015em] text-violet-900">
+          <h2 className="text-balance text-left text-base/6 tracking-[-0.015em] text-violet-900 dark:text-violet-200">
             Suggestion for you
           </h2>
-          <p className="mt-px text-left text-base font-semibold italic text-violet-950 md:text-xl lg:text-3xl">
+          <p className="mt-px text-left text-base font-semibold italic text-violet-950 dark:text-violet-50 md:text-xl lg:text-3xl">
             {randomSuggestion}
           </p>
         </section>

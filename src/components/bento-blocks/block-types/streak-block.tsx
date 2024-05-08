@@ -12,7 +12,7 @@ export default async function StreakBlock({
     where: (model, { eq }) => eq(model.userId, userId ?? ""),
   });
   return (
-    <div className="mx-auto max-w-md rounded-lg text-amber-950">
+    <div className="mx-auto max-w-md rounded-lg text-amber-950 dark:text-amber-50">
       <div className="flex items-center justify-between lg:mb-6 lg:flex-col">
         <h2 className="text-xl font-bold lg:text-2xl">Current Streak</h2>
         <div className="relative flex size-16 items-center justify-center lg:mt-4 lg:size-24">
