@@ -1,37 +1,63 @@
+import Journal from "@/components/journal";
+import JournalForm from "@/components/journal-form/form";
 import LeftSection from "@/components/left-section";
-import RightSection from "@/components/right-section";
-import {
-  Drawer,
-  DrawerContent,
-  DrawerHeader,
-  DrawerTrigger,
-} from "@/components/ui/drawer";
-
+import { db } from "@/server/db";
+import { journalTopics } from "@/server/db/schema";
 import { auth } from "@clerk/nextjs/server";
-import { redirect } from "next/navigation";
-import { ScrollArea } from "@/components/ui/scroll-area";
 
-export default async function HomePage() {
-  const { userId }: { userId: string | null } = auth();
-  if (!userId) {
-    redirect("/sign-up");
-  }
-  return (
-    <main className="grid min-h-screen lg:grid-cols-2">
-      <LeftSection />
+type Journal = {
+  date: string;
+  id: string;
+  created_at: string;
+  updated_at: string;
+  userId: string;
+  mood: number;
+  notes: string;
+  TP: string | null;
+  TN: string | null;
+  FP: string | null;
+  FN: string | null;
+};
+export default async function HomePage({
+  searchParams: { date },
+}: {
+  searchParams: { date: string };
+}) {
+  const { userId } = auth();
+  const journal = await db.query.journals.findFirst({
+    where: (model, { eq, and }) =>
+      and(eq(model.date, date), eq(model.userId, userId ?? "")),
+  });
+  const c = await db.query.journalTopics.findMany({
+    where: (model, { eq }) => eq(model.journalId, journal?.id ?? ""),
+  });
+  console.log(c);
 
-      <Drawer>
-        <DrawerTrigger className="fixed inset-x-0 bottom-0 h-8 bg-background lg:hidden">
-          <div className="mx-auto h-2 w-[100px] rounded-full bg-muted" />
-        </DrawerTrigger>
-        <DrawerContent className="h-[calc(100vh-1rem)]">
-          <ScrollArea>
-            <RightSection mobile />
-          </ScrollArea>
-        </DrawerContent>
-      </Drawer>
-
-      <RightSection />
-    </main>
+  return journal ? (
+    <Journal dayDesc={journal.notes} mood={journal.mood} tags={[]} />
+  ) : (
+    <>
+      <JournalForm />
+    </>
   );
+
+  // {calendar[currentWeekIndex]?.map((day, dayIndex) => (
+  //   <TabsContent key={dayIndex} value={day.date}>
+  //     {journals.find((journal) => journal.date === day.date) ? (
+  //       <Journal
+  //         dayDesc={
+  //           journals.find((journal) => journal.date === day.date)
+  //             ?.notes ?? ""
+  //         }
+  //         mood={
+  //           journals.find((journal) => journal.date === day.date)?.mood ??
+  //           0
+  //         }
+  //         tags={[]}
+  //       />
+  //     ) : (
+  //       <JournalForm />
+  //     )}
+  //   </TabsContent>
+  // ))}
 }

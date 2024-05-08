@@ -1,35 +1,14 @@
 "use client";
 
-import { Tabs, TabsContent, TabsList } from "@/components/ui/regular-tabs";
-import { useState } from "react";
+import { Tabs, TabsList } from "@/components/ui/regular-tabs";
 import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons";
+import { useCallback, useState } from "react";
 import { Button } from "../ui/button";
-import { Day, DayType } from "./day";
 import { DatePicker } from "./date-picker";
-import Journal from "../journal";
-import JournalForm from "../journal-form/form";
+import { Day, DayType } from "./day";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-type Journal = {
-  date: string;
-  id: string;
-  created_at: string;
-  updated_at: string;
-  userId: string;
-  mood: number;
-  notes: string;
-  TP: string | null;
-  TN: string | null;
-  FP: string | null;
-  FN: string | null;
-};
-
-export default function DaysList({
-  firstDate,
-  journals,
-}: {
-  firstDate: Date;
-  journals: Journal[];
-}) {
+export default function DaysList({ firstDate }: { firstDate: Date }) {
   const [currentDateTab, setCurrentDateTab] = useState(
     new Date().toDateString(),
   );
@@ -39,7 +18,6 @@ export default function DaysList({
       disabled: false,
     } as DayType),
   );
-  console.log(journals);
   function getCalendarData(firstDate: Date): DayType[][] {
     const calendarData: DayType[][] = [];
     const currentDate = new Date();
@@ -101,6 +79,21 @@ export default function DaysList({
   }
 
   const calendar = getCalendarData(firstDate);
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  // Get a new searchParams string by merging the current
+  // searchParams with a provided key/value pair
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set(name, value);
+
+      return params.toString();
+    },
+    [searchParams],
+  );
 
   return (
     <div>
@@ -150,7 +143,13 @@ export default function DaysList({
         )}
       </div>
 
-      <Tabs value={currentDateTab} onValueChange={setCurrentDateTab}>
+      <Tabs
+        value={currentDateTab}
+        onValueChange={(v) => {
+          setCurrentDateTab(v);
+          router.push(pathname + "?" + createQueryString("date", v));
+        }}
+      >
         <div className="flex items-center gap-x-1">
           <div>
             <Button
@@ -185,25 +184,6 @@ export default function DaysList({
             </Button>
           </div>
         </div>
-        {calendar[currentWeekIndex]?.map((day, dayIndex) => (
-          <TabsContent key={dayIndex} value={day.date}>
-            {journals.find((journal) => journal.date === day.date) ? (
-              <Journal
-                dayDesc={
-                  journals.find((journal) => journal.date === day.date)
-                    ?.notes ?? ""
-                }
-                mood={
-                  journals.find((journal) => journal.date === day.date)?.mood ??
-                  0
-                }
-                tags={[]}
-              />
-            ) : (
-              <JournalForm />
-            )}
-          </TabsContent>
-        ))}
       </Tabs>
     </div>
   );

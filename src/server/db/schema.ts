@@ -47,10 +47,6 @@ export const journals = createTable("journal", {
   created_at: text("created_at")
     .notNull()
     .$defaultFn(() => new Date().toDateString()),
-  TP: text("tags", { length: 256 }).references(() => topics.value),
-  TN: text("tags", { length: 256 }).references(() => topics.value),
-  FP: text("tags", { length: 256 }).references(() => topics.value),
-  FN: text("tags", { length: 256 }).references(() => topics.value),
   updated_at: text("updated_at")
     .$onUpdate(() => new Date().toDateString())
     .notNull()
@@ -58,11 +54,11 @@ export const journals = createTable("journal", {
 });
 
 export const journalRelations = relations(journals, ({ many }) => ({
-  tags: many(topics),
+  topics: many(topics, { relationName: "journalTopics" }),
 }));
 
 export const tagRelations = relations(journalTopics, ({ many }) => ({
-  journals: many(journals),
+  journals: many(journals, { relationName: "journalTopics" }),
 }));
 
 export const journalTopicsRelations = relations(journalTopics, ({ one }) => ({

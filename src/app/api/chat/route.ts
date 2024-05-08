@@ -60,8 +60,8 @@ export async function POST(req: Request) {
 
     await db.insert(journalTopics).values(
       json.topics.map((t) => ({
-        topicId: topics.find((topic) => topic.value === t)?.id || "",
-        journalId: addedJournal?.[0]?.id || "",
+        topicId: topics.find((topic) => topic.value === t)?.id!,
+        journalId: addedJournal?.[0]?.id!,
       })),
     );
 
