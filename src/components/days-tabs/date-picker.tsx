@@ -25,7 +25,7 @@ export function DatePicker({
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <div className="ml-2 flex w-fit items-center gap-x-2 font-semibold max-sm:my-2 max-sm:justify-center sm:mb-2 sm:text-lg">
+        <button className="ml-2 flex w-fit items-center gap-x-2 font-semibold max-sm:my-2 max-sm:justify-center sm:mb-2 sm:text-lg">
           {today.toDateString() === value?.toDateString() ? (
             <span>Today</span>
           ) : yesterday.toDateString() === value?.toDateString() ? (
@@ -37,7 +37,7 @@ export function DatePicker({
               {value ? `, ${value.getFullYear()}` : ""}
             </span>
           )}
-        </div>
+        </button>
       </PopoverTrigger>
       <PopoverContent className="ml-4 w-[calc(100vw-2rem)] p-0 sm:w-auto">
         <Calendar

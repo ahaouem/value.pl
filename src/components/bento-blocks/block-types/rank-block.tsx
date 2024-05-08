@@ -24,7 +24,7 @@ export default function RankBlock() {
       </h2>
       <ul className="space-y-1">
         {top.map((val, idx) => (
-          <li className="text-rose-950">
+          <li className="text-rose-950 first:text-lg last:text-sm">
             <span className="mr-0.5 text-rose-950/50">{idx + 1}.</span>{" "}
             {val.tag}
           </li>

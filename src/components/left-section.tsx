@@ -1,14 +1,15 @@
-"use client";
+import { db } from "@/server/db";
 import DaysList from "./days-tabs/days-list";
-import Form from "./journal-form/form";
+import { auth } from "@clerk/nextjs/server";
 
-export default function LeftSection() {
+export default async function LeftSection() {
+  const { userId } = auth();
+  const journals = await db.query.journals.findMany({
+    where: (model, { eq }) => eq(model.userId, userId ?? ""),
+  });
   return (
-    <div className="bg-zinc-100 p-2 md:p-4 lg:h-screen">
-      <div className="w-full">
-        <DaysList firstDate={new Date("2021-09-01")} />
-        <Form />
-      </div>
+    <div className="w-full bg-zinc-100 p-2 md:p-4 lg:h-screen">
+      <DaysList journals={journals} firstDate={new Date("2021-09-01")} />
     </div>
   );
 }
