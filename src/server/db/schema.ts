@@ -19,6 +19,22 @@ export const topics = createTable("topic", {
     .$defaultFn(() => new Date().toDateString()),
 });
 
+export const streaks = createTable("streak", {
+  id: text("id")
+    .notNull()
+    .primaryKey()
+    .$defaultFn(() => cuid()),
+  userId: text("userId").notNull(),
+  value: int("value", { mode: "number" }).notNull(),
+  created_at: text("created_at")
+    .notNull()
+    .$defaultFn(() => new Date().toDateString()),
+  updated_at: text("updated_at")
+    .$onUpdate(() => new Date().toDateString())
+    .notNull()
+    .$defaultFn(() => new Date().toDateString()),
+});
+
 export const journalTopics = createTable("journal_topic", {
   id: text("id")
     .notNull()
@@ -44,9 +60,6 @@ export const journals = createTable("journal", {
   date: text("date", { length: 256 }).notNull(),
   mood: int("mood", { mode: "number" }).notNull(),
   notes: text("notes", { length: 256 }).notNull(),
-  streak: int("streak", { mode: "number" })
-    .notNull()
-    .$default(() => 0),
   created_at: text("created_at")
     .notNull()
     .$defaultFn(() => new Date().toDateString()),

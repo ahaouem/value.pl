@@ -1,9 +1,9 @@
 import Journal from "@/components/journal";
 import JournalForm from "@/components/journal-form/form";
 import { db } from "@/server/db";
-import { journalTopics, journals, topics } from "@/server/db/schema";
+import { journalTopics, journals, streaks, topics } from "@/server/db/schema";
 import { auth } from "@clerk/nextjs/server";
-import { count, desc, eq } from "drizzle-orm";
+import { count, desc, eq, sql } from "drizzle-orm";
 type Journal = {
   date: string;
   id: string;
@@ -28,6 +28,36 @@ export default async function HomePage({
     where: (model, { eq, and }) =>
       and(eq(model.date, date), eq(model.userId, userId ?? "")),
   });
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  const yesterdaysJournal = await db.query.journals.findFirst({
+    where: (model, { eq, and }) =>
+      and(
+        eq(model.date, yesterday.toDateString()),
+        eq(model.userId, userId ?? ""),
+      ),
+  });
+
+  if (!yesterdaysJournal) {
+    const streak = await db.query.streaks.findFirst({
+      where: (model, { eq }) => eq(model.userId, userId ?? ""),
+    });
+
+    if (streak) {
+      await db
+        .update(streaks)
+        .set({
+          value: 0,
+        })
+        .where(eq(streaks.userId, userId ?? ""));
+    } else {
+      await db.insert(streaks).values({
+        userId: userId ?? "",
+        value: 0,
+      });
+    }
+  }
+
   // const c = await db.query.journalTopics.findMany({
   //   where: (model, { eq }) => eq(model.journalId, journal?.id ?? ""),
   // });
