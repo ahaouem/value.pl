@@ -24,8 +24,8 @@ export const journalTopics = createTable("journal_topic", {
     .notNull()
     .primaryKey()
     .$defaultFn(() => cuid()),
-  journalId: int("journalId", { mode: "number" }).notNull(),
-  topicId: int("topicId", { mode: "number" }).notNull(),
+  journalId: text("journalId").notNull(),
+  topicId: text("topicId").notNull(),
   created_at: text("created_at")
     .notNull()
     .$defaultFn(() => new Date().toDateString()),

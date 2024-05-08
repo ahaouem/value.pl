@@ -37,15 +37,8 @@ export async function POST(req: Request) {
       FN: string[];
     } = JSON.parse(chatCompletion?.choices[0]?.message?.content ?? "null");
 
-    const json: {
-      topics: string[];
-      TP: string[];
-      FP: string[];
-      TN: string[];
-      FN: string[];
-    } = JSON.parse(chatCompletion.choices[0]?.message.content || "");
-
-    db.insert(journal)
+    const journalId = await db
+      .insert(journal)
       .values({
         userId,
         date: new Date().toDateString(),
@@ -53,6 +46,7 @@ export async function POST(req: Request) {
         notes: dayDescription,
       })
       .returning(journal.id);
+
     return new Response(JSON.stringify({ ok: true }));
   } catch (e) {
     return new Response(JSON.stringify({ ok: false }));
