@@ -8,9 +8,9 @@ import {
   SuggestionBlock,
 } from "./block-types";
 import { db } from "@/server/db";
-import { journals } from "@/server/db/schema";
+import { journalTopics, journals, topics } from "@/server/db/schema";
 import { auth } from "@clerk/nextjs/server";
-import { eq } from "drizzle-orm";
+import { desc, eq, count } from "drizzle-orm";
 
 export default async function BlocksLayout() {
   const { userId } = auth();
@@ -19,6 +19,16 @@ export default async function BlocksLayout() {
     .from(journals)
     .where(eq(journals.userId, userId ?? ""));
 
+  const rankData = await db
+    .select({ value: topics.value })
+    .from(journalTopics)
+    .leftJoin(topics, eq(journalTopics.topicId, topics.id))
+    .leftJoin(journals, eq(journalTopics.journalId, journals.id))
+    .where(eq(journals.userId, userId ?? ""))
+    .groupBy(topics.value)
+    .orderBy(desc(count(journalTopics.topicId)))
+    .limit(3);
+
   return (
     <section className="grid h-full grid-cols-1 gap-4 bg-transparent lg:grid-cols-3">
       <WobbleCard containerClassName="col-span-1 lg:col-span-2 h-full bg-violet-200">
@@ -26,7 +36,7 @@ export default async function BlocksLayout() {
       </WobbleCard>
 
       <WobbleCard containerClassName="col-span-1 bg-rose-200">
-        <RankBlock />
+        <RankBlock rankData={rankData} />
       </WobbleCard>
 
       <WobbleCard containerClassName="col-span-1 bg-amber-200">

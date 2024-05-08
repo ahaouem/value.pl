@@ -3,7 +3,7 @@ import JournalForm from "@/components/journal-form/form";
 import { db } from "@/server/db";
 import { journalTopics, journals, streaks, topics } from "@/server/db/schema";
 import { auth } from "@clerk/nextjs/server";
-import { count, desc, eq, sql } from "drizzle-orm";
+import { and, count, desc, eq, sql } from "drizzle-orm";
 type Journal = {
   date: string;
   id: string;
@@ -81,21 +81,31 @@ export default async function HomePage({
     }
   }
 
-  // const c = await db.query.journalTopics.findMany({
-  //   where: (model, { eq }) => eq(model.journalId, journal?.id ?? ""),
-  // });
-  const d = await db
-    .select({ value: topics.value })
+  const topicsList = await db
+    .select({ value: topics.value, count: count(journalTopics.topicId) })
     .from(journalTopics)
     .leftJoin(topics, eq(journalTopics.topicId, topics.id))
     .leftJoin(journals, eq(journalTopics.journalId, journals.id))
-    .where(eq(journals.userId, userId ?? ""))
-    .groupBy(topics.value)
-    .orderBy(desc(count(journalTopics.topicId)))
-    .limit(3);
-  console.log(d);
+    .where(
+      and(
+        eq(journals.userId, userId ?? ""),
+        eq(journals.id, journal?.id ?? ""),
+      ),
+    );
+
+  // const topics = await db.query.journalTopics.findMany({
+  //   where: (model, { eq }) => eq(model.journalId, journal?.id ?? ""),
+  //   with: {
+  //     topic: true,
+  //   },
+  // });
+  console.log(topics);
   return journal ? (
-    <Journal dayDesc={journal.notes} mood={journal.mood} tags={[]} />
+    <Journal
+      dayDesc={journal.notes}
+      mood={journal.mood}
+      tags={topicsList.map((t) => t.value || "")}
+    />
   ) : (
     <>
       <JournalForm date={date} />
