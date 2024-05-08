@@ -25,7 +25,6 @@ import { Textarea } from "../ui/textarea";
 const formSchema = z.object({
   mood: z.number(),
   dayDescription: z.string(),
-  userId: z.string(),
 });
 
 export default function JournalForm({ date }: { date: string }) {
@@ -34,20 +33,17 @@ export default function JournalForm({ date }: { date: string }) {
   const { session } = useSession();
   const router = useRouter();
 
-  if (!user || !session) return null;
-  const userId = user.id;
-
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       mood: 3,
       dayDescription: "Today I am grateful for...",
-      userId,
     },
   });
 
+  if (!user || !session) return null;
+
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    data = { ...data, userId };
     setLoading(true);
     const response = await fetch("/api/chat", {
       method: "POST",
