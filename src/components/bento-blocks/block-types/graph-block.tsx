@@ -62,16 +62,24 @@ const chartdata = [
 ];
 
 export default function GraphBlock() {
-  const moods = ["😔", "😞", "😕", "😐", "😃", "😄", "😊"];
+  const moods = [
+    { emoji: "😔", tooltip: "anxious" },
+    { emoji: "😞", tooltip: "worried" },
+    { emoji: "😕", tooltip: "uneasy" },
+    { emoji: "😐", tooltip: "unsure" },
+    { emoji: "😃", tooltip: "calm" },
+    { emoji: "😄", tooltip: "happy" },
+    { emoji: "😊", tooltip: "serene" },
+  ];
   const customTooltip = (props: CustomTooltipProps) => {
     const { payload, active } = props;
     if (!active || !payload) return null;
 
     return (
-      <div className="flex w-10 items-center justify-center rounded-md border-none bg-white p-2 text-center">
+      <div className="flex items-center justify-center rounded-md border-none bg-white p-2 text-center">
         {payload.map((category, idx) => (
           <p key={idx} className="font-medium">
-            {moods[((category?.value as number) ?? 0) - 1]}
+            {moods[((category?.value as number) ?? 0) - 1]?.tooltip}
           </p>
         ))}
       </div>
@@ -88,7 +96,7 @@ export default function GraphBlock() {
       colors={["blue"]}
       yAxisWidth={20}
       maxValue={7}
-      valueFormatter={(value) => moods[value - 1] ?? ""}
+      valueFormatter={(value) => moods[value - 1]?.emoji ?? ""}
       minValue={1}
       customTooltip={customTooltip}
     />
