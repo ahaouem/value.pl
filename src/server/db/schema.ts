@@ -24,6 +24,10 @@ export const journal = createTable("journal", {
   mood: int("mood", { mode: "number" }),
   notes: text("notes", { length: 256 }),
   tags: text("tags", { length: 256 }).references(() => journal_tag.value),
+  TP: text("tags", { length: 256 }).references(() => journal_tag.value),
+  TN: text("tags", { length: 256 }).references(() => journal_tag.value),
+  FP: text("tags", { length: 256 }).references(() => journal_tag.value),
+  FN: text("tags", { length: 256 }).references(() => journal_tag.value),
   created_at: text("created_at").notNull(),
   updated_at: text("updated_at").$onUpdate(() => new Date().toDateString()),
 });
