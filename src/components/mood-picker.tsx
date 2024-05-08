@@ -5,6 +5,17 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+
+export const moods = [
+  { emoji: "😔", tooltip: "anxious" },
+  { emoji: "😞", tooltip: "worried" },
+  { emoji: "😕", tooltip: "uneasy" },
+  { emoji: "😐", tooltip: "unsure" },
+  { emoji: "😃", tooltip: "calm" },
+  { emoji: "😄", tooltip: "happy" },
+  { emoji: "😊", tooltip: "serene" },
+];
+
 export function MoodPicker({
   value,
   onChange,
@@ -14,15 +25,6 @@ export function MoodPicker({
   value: number;
   onChange: (value: number) => void;
 } & React.HTMLAttributes<HTMLDivElement>) {
-  const moods = [
-    { emoji: "😔", tooltip: "anxious" },
-    { emoji: "😞", tooltip: "worried" },
-    { emoji: "😕", tooltip: "uneasy" },
-    { emoji: "😐", tooltip: "unsure" },
-    { emoji: "😃", tooltip: "calm" },
-    { emoji: "😄", tooltip: "happy" },
-    { emoji: "😊", tooltip: "serene" },
-  ];
   return (
     <div
       className={cn("flex w-full flex-row justify-between", className)}
