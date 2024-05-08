@@ -10,10 +10,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useSession, useUser } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -30,7 +30,7 @@ const formSchema = z.object({
 export default function JournalForm({ date }: { date: string }) {
   const { user } = useUser();
   const [loading, setLoading] = useState(false);
-  const { session } = useSession();
+
   const router = useRouter();
 
   const form = useForm({
@@ -41,7 +41,7 @@ export default function JournalForm({ date }: { date: string }) {
     },
   });
 
-  if (!user || !session) return null;
+  if (!user) return null;
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     setLoading(true);

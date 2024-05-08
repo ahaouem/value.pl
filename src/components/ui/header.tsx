@@ -1,14 +1,13 @@
 "use client";
 import { motion } from "framer-motion";
 
-import { UserButton, useSession, useUser } from "@clerk/nextjs";
+import { UserButton, useUser } from "@clerk/nextjs";
 import { HeroHighlight } from "./hero-highlight";
 
 export default function HelloHeader() {
   const { user } = useUser();
-  const { session } = useSession();
 
-  if (!user || !session) return null;
+  if (!user) return null;
 
   return (
     <div className="flex h-[4.125rem] items-center justify-between">
