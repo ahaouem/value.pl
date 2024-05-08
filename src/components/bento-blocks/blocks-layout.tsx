@@ -11,7 +11,9 @@ import { db } from "@/server/db";
 import { journals } from "@/server/db/schema";
 
 export default async function BlocksLayout() {
-  const moodData = await db.select({ mood: journals.mood }).from(journals);
+  const moodData = await db
+    .select({ date: journals.date, mood: journals.mood })
+    .from(journals);
 
   return (
     <section className="grid h-full grid-cols-1 gap-4 bg-transparent lg:grid-cols-3">
