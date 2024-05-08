@@ -37,6 +37,8 @@ const GraphBlock = ({
     (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
   );
 
+  const classNames = ["stroke-blue-500 fill-blue-500"];
+
   return (
     <>
       {moodData.length === 0 && <div>No data</div>}
