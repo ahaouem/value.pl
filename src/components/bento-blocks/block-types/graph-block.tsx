@@ -41,7 +41,11 @@ const GraphBlock = ({
 
   return (
     <>
-      {moodData.length === 0 && <div>No data</div>}
+      {moodData.length === 0 && (
+        <div className="grid h-full w-full grid-cols-1 grid-rows-1 place-content-center">
+          Add some journal entries to see your mood graph!
+        </div>
+      )}
       {moodData.length > 0 && (
         <LineChart
           className="m-0 h-full w-full p-0 [&_svg]:overflow-visible"

@@ -30,6 +30,15 @@ export default async function BlocksLayout() {
     .orderBy(desc(count(topics.value)))
     .limit(3);
 
+  const isTodayStreak = !!(await db.query.journals.findFirst({
+    where: (model, { eq, and }) =>
+      and(
+        eq(model.date, new Date().toDateString()),
+        eq(model.userId, userId ?? ""),
+        eq(model.created_at, new Date().toDateString()),
+      ),
+  }));
+
   return (
     <section className="grid h-full grid-cols-1 gap-4 bg-transparent lg:grid-cols-3">
       <WobbleCard containerClassName="col-span-1 lg:col-span-2 h-full bg-violet-200">
@@ -41,7 +50,7 @@ export default async function BlocksLayout() {
       </WobbleCard>
 
       <WobbleCard containerClassName="col-span-1 bg-amber-200">
-        <StreakBlock />
+        <StreakBlock isTodayStreak={isTodayStreak} />
       </WobbleCard>
 
       <WobbleCard containerClassName="col-span-1 lg:col-span-2 bg-sky-200 min-h-[12rem]">
