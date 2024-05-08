@@ -40,9 +40,10 @@ export default function JournalForm() {
   });
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    data = { ...data, userId };
     const response = await fetch("/api/chat", {
       method: "POST",
-      body: JSON.stringify(data + userId),
+      body: JSON.stringify(data),
     });
     console.log(response);
     toast("Todays journal saved");
