@@ -67,6 +67,7 @@ function getCurrentWeekIndex(day: DayType, firstDate: Date) {
 
   return -1;
 }
+
 export default function DaysList({ firstDate }: { firstDate: Date }) {
   const [currentDateTab, setCurrentDateTab] = useState(
     new Date().toDateString(),
@@ -99,7 +100,14 @@ export default function DaysList({ firstDate }: { firstDate: Date }) {
   useEffect(() => {
     router.push(pathname + "?" + createQueryString("date", currentDateTab));
   }, [currentDateTab]);
-
+  function syncDateWithUrl(value: string) {
+    clearTimeout(timeoutValue);
+    setTimeoutValue(
+      setTimeout(() => {
+        router.push(pathname + "?" + createQueryString("date", value));
+      }, 400),
+    );
+  }
   return (
     <div>
       <div className="flex items-center justify-between sm:px-6">
@@ -124,16 +132,8 @@ export default function DaysList({ firstDate }: { firstDate: Date }) {
                 firstDate,
               ),
             );
-            clearTimeout(timeoutValue);
-            setTimeoutValue(
-              setTimeout(() => {
-                router.push(
-                  pathname +
-                    "?" +
-                    createQueryString("date", date.toDateString()),
-                );
-              }, 400),
-            );
+
+            syncDateWithUrl(date.toDateString());
           }}
           disabled={[
             {
@@ -157,6 +157,7 @@ export default function DaysList({ firstDate }: { firstDate: Date }) {
                   firstDate,
                 ),
               );
+              syncDateWithUrl(new Date().toDateString());
             }}
           >
             Go back to today
@@ -167,13 +168,8 @@ export default function DaysList({ firstDate }: { firstDate: Date }) {
       <Tabs
         value={currentDateTab}
         onValueChange={(v) => {
-          clearTimeout(timeoutValue);
           setCurrentDateTab(v);
-          setTimeoutValue(
-            setTimeout(() => {
-              router.push(pathname + "?" + createQueryString("date", v));
-            }, 400),
-          );
+          syncDateWithUrl(v);
         }}
       >
         <div className="flex items-center gap-x-1">
