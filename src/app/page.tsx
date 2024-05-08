@@ -95,7 +95,12 @@ export default async function HomePage({
     .limit(3);
   console.log(d);
   return journal ? (
-    <Journal dayDesc={journal.notes} mood={journal.mood} tags={[]} />
+    <Journal
+      data={{
+        ...journal,
+        topics: [],
+      }}
+    />
   ) : (
     <>
       <JournalForm date={date} />

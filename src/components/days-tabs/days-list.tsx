@@ -98,7 +98,7 @@ export default function DaysList({ firstDate }: { firstDate: Date }) {
   );
   useEffect(() => {
     router.push(pathname + "?" + createQueryString("date", currentDateTab));
-  }, []);
+  }, [currentDateTab]);
 
   return (
     <div>
@@ -123,6 +123,16 @@ export default function DaysList({ firstDate }: { firstDate: Date }) {
                 } as DayType,
                 firstDate,
               ),
+            );
+            clearTimeout(timeoutValue);
+            setTimeoutValue(
+              setTimeout(() => {
+                router.push(
+                  pathname +
+                    "?" +
+                    createQueryString("date", date.toDateString()),
+                );
+              }, 350),
             );
           }}
           disabled={[

@@ -12,7 +12,7 @@ export default async function LeftSection({
     where: (model, { eq }) => eq(model.userId, userId ?? ""),
   });
   return (
-    <div className="w-full bg-zinc-100 p-2 md:p-4 lg:h-screen">
+    <div className="w-full p-2 md:p-4 lg:h-screen">
       <DaysList firstDate={new Date("2021-09-01")} />
       {children}
     </div>
