@@ -19,7 +19,7 @@ export default function RankBlock() {
   const top = tagValue.sort((a, b) => b.value - a.value).slice(0, 3);
   return (
     <>
-      <h2 className="mb-4 text-xl font-bold text-rose-950">
+      <h2 className="mb-4 h-4 text-xl font-bold text-rose-950">
         What you value the most
       </h2>
       <ul className="space-y-1">
