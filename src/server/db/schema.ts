@@ -1,19 +1,11 @@
-// Example model schema from the Drizzle docs
-// https://orm.drizzle.team/docs/sql-schema-declaration
-
+import { relations } from "drizzle-orm";
 import { int, sqliteTableCreator, text } from "drizzle-orm/sqlite-core";
 
-/**
- * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
- * database instance for multiple projects.
- *
- * @see https://orm.drizzle.team/docs/goodies#multi-project-schema
- */
 export const createTable = sqliteTableCreator((name) => `value_${name}`);
 
-export const journal_tag = createTable("journal_tag", {
+export const topics = createTable("topic", {
   id: int("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
-  value: text("value", { length: 256 }).primaryKey(),
+  value: text("value", { length: 256 }).notNull(),
   created_at: text("created_at")
     .notNull()
     .$defaultFn(() => new Date().toDateString()),
@@ -23,22 +15,53 @@ export const journal_tag = createTable("journal_tag", {
     .$defaultFn(() => new Date().toDateString()),
 });
 
-export const journal = createTable("journal", {
+export const journalTopics = createTable("journal_topic", {
   id: int("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
-  userId: text("userId", { length: 256 }),
-  date: text("date", { length: 256 }),
-  mood: int("mood", { mode: "number" }),
-  notes: text("notes", { length: 256 }),
-  topics: text("tags", { length: 256 }).references(() => journal_tag.value),
+  journalId: int("journalId", { mode: "number" }).notNull(),
+  topicId: int("topicId", { mode: "number" }).notNull(),
   created_at: text("created_at")
     .notNull()
     .$defaultFn(() => new Date().toDateString()),
-  TP: text("tags", { length: 256 }).references(() => journal_tag.value),
-  TN: text("tags", { length: 256 }).references(() => journal_tag.value),
-  FP: text("tags", { length: 256 }).references(() => journal_tag.value),
-  FN: text("tags", { length: 256 }).references(() => journal_tag.value),
   updated_at: text("updated_at")
     .$onUpdate(() => new Date().toDateString())
     .notNull()
     .$defaultFn(() => new Date().toDateString()),
 });
+
+export const journals = createTable("journal", {
+  id: int("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
+  userId: text("userId", { length: 256 }).notNull(),
+  date: text("date", { length: 256 }).notNull(),
+  mood: int("mood", { mode: "number" }).notNull(),
+  notes: text("notes", { length: 256 }).notNull(),
+  created_at: text("created_at")
+    .notNull()
+    .$defaultFn(() => new Date().toDateString()),
+  TP: text("tags", { length: 256 }).references(() => topics.value),
+  TN: text("tags", { length: 256 }).references(() => topics.value),
+  FP: text("tags", { length: 256 }).references(() => topics.value),
+  FN: text("tags", { length: 256 }).references(() => topics.value),
+  updated_at: text("updated_at")
+    .$onUpdate(() => new Date().toDateString())
+    .notNull()
+    .$defaultFn(() => new Date().toDateString()),
+});
+
+export const journalRelations = relations(journals, ({ many }) => ({
+  tags: many(topics),
+}));
+
+export const tagRelations = relations(journalTopics, ({ many }) => ({
+  journals: many(journals),
+}));
+
+export const journalTopicsRelations = relations(journalTopics, ({ one }) => ({
+  journal: one(journals, {
+    fields: [journalTopics.journalId],
+    references: [journals.id],
+  }),
+  topic: one(topics, {
+    fields: [journalTopics.topicId],
+    references: [topics.id],
+  }),
+}));
