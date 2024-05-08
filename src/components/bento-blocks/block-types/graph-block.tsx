@@ -1,7 +1,14 @@
 "use client";
 import { CustomTooltipProps, LineChart } from "@tremor/react";
 
-const GraphBlock = ({ moodData }: { moodData: any }) => {
+const GraphBlock = ({
+  moodData,
+}: {
+  moodData: {
+    date: string;
+    mood: number;
+  }[];
+}) => {
   const moods = [
     { emoji: "😔", tooltip: "anxious" },
     { emoji: "😞", tooltip: "worried" },
@@ -20,12 +27,15 @@ const GraphBlock = ({ moodData }: { moodData: any }) => {
       <div className="flex items-center justify-center rounded-md border-none bg-white p-2 text-center">
         {payload.map((category, idx) => (
           <p key={idx} className="font-medium">
-            {moods[((category?.value as number) ?? 0) - 1]?.tooltip}
+            {moods[(category?.value as number) ?? 0]?.tooltip}
           </p>
         ))}
       </div>
     );
   };
+  moodData.sort(
+    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
+  );
 
   const classNames = ["stroke-blue-500 fill-blue-500"];
 
