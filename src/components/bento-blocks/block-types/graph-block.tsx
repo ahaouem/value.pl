@@ -4,6 +4,30 @@ import { CustomTooltipProps, LineChart } from "@tremor/react";
 
 const chartdata = [
   {
+    date: new Date("2024-05-02").toLocaleString("en-US", {
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    }),
+    value: 7,
+  },
+  {
+    date: new Date("2024-05-03").toLocaleString("en-US", {
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    }),
+    value: 5,
+  },
+  {
+    date: new Date("2024-05-04").toLocaleString("en-US", {
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    }),
+    value: 3,
+  },
+  {
     date: new Date("2024-05-05").toLocaleString("en-US", {
       month: "long",
       day: "numeric",
@@ -17,7 +41,7 @@ const chartdata = [
       day: "numeric",
       year: "numeric",
     }),
-    value: 5,
+    value: 2,
   },
   {
     date: new Date("2024-05-07").toLocaleString("en-US", {
@@ -25,34 +49,10 @@ const chartdata = [
       day: "numeric",
       year: "numeric",
     }),
-    value: 3,
-  },
-  {
-    date: new Date("2024-05-08").toLocaleString("en-US", {
-      month: "long",
-      day: "numeric",
-      year: "numeric",
-    }),
-    value: 7,
-  },
-  {
-    date: new Date("2024-05-09").toLocaleString("en-US", {
-      month: "long",
-      day: "numeric",
-      year: "numeric",
-    }),
-    value: 2,
-  },
-  {
-    date: new Date("2024-05-10").toLocaleString("en-US", {
-      month: "long",
-      day: "numeric",
-      year: "numeric",
-    }),
     value: 5,
   },
   {
-    date: new Date("2024-05-11").toLocaleString("en-US", {
+    date: new Date("2024-05-08").toLocaleString("en-US", {
       month: "long",
       day: "numeric",
       year: "numeric",

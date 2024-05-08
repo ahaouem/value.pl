@@ -8,8 +8,7 @@ export default function RightSection({ mobile }: { mobile?: boolean }) {
     <main className={cn("h-screen p-4 md:p-12", !mobile && "max-lg:hidden")}>
       <HeroHighlight>
         <HelloHeader />
-        <BlocksLayout />
-      </HeroHighlight>
+        <BlocksLayout />      </HeroHighlight>
     </main>
   );
 }

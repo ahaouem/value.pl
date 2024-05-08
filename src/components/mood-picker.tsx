@@ -34,6 +34,7 @@ export function MoodPicker({
             <TooltipTrigger
               onClick={() => onChange(idx)}
               key={idx}
+              type="button"
               className={cn(
                 "transform text-2xl transition-all hover:scale-105 md:text-4xl lg:text-6xl",
                 idx === value

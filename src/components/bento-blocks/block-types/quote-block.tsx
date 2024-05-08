@@ -11,7 +11,7 @@ export default async function QuoteBlock() {
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 84.08 56.13"
-          className="absolute -left-4 -top-12 size-24 fill-emerald-400/25"
+          className="absolute lg:-left-4 -top-4 lg:-top-12 size-12 lg:size-24 fill-emerald-400/25"
         >
           <path
             className="stroke-none"
