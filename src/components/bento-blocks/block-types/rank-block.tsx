@@ -19,11 +19,13 @@ export default function RankBlock() {
   const top = tagValue.sort((a, b) => b.value - a.value).slice(0, 3);
   return (
     <>
-      <h2 className="mb-4 text-xl font-bold">What you value the most</h2>
+      <h2 className="mb-4 text-xl font-bold text-rose-950">
+        What you value the most
+      </h2>
       <ul className="space-y-1">
         {top.map((val, idx) => (
-          <li>
-            <span className="mr-0.5 text-foreground/50">{idx + 1}.</span>{" "}
+          <li className="text-rose-950">
+            <span className="mr-0.5 text-rose-950/50">{idx + 1}.</span>{" "}
             {val.tag}
           </li>
         ))}

@@ -39,7 +39,7 @@ export function DatePicker({
           )}
         </div>
       </PopoverTrigger>
-      <PopoverContent className="ml-4 w-auto p-0">
+      <PopoverContent className="ml-4 w-[calc(100vw-2rem)] p-0 sm:w-auto">
         <Calendar
           required
           disabled={disabled}
