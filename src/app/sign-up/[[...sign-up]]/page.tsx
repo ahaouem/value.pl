@@ -5,7 +5,7 @@ export default function Page() {
   return (
     <main className="grid h-screen place-content-center bg-zinc-100 pb-32">
       <Image src={BlurredView} alt="Blurred View" className="absolute z-0" />
-      <SignUp />
+      <SignUp path="/sign-up" />
     </main>
   );
 }
