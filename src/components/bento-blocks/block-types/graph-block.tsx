@@ -33,9 +33,6 @@ const GraphBlock = ({
       </div>
     );
   };
-  moodData.sort(
-    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
-  );
 
   return (
     <>

@@ -10,7 +10,7 @@ import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { ThemeProvider } from "@/components/theme-provider";
 export const metadata = {
-  title: "ur Value",
+  title: "Value",
   description: "Journal with us!",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };

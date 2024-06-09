@@ -1,6 +1,5 @@
-import OpenAI from "openai";
+import { ai } from "@/lib/ai";
 import { db } from "@/server/db";
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 import { formSchema } from "@/schemas";
 import { z } from "zod";
 import { journals, journalTopics, streaks, topics } from "@/server/db/schema";
@@ -15,7 +14,7 @@ export async function POST(req: Request) {
   > & { date: string };
 
   try {
-    const chatCompletion = await openai.chat.completions.create({
+    const chatCompletion = await ai.chat.completions.create({
       messages: [
         {
           content:
