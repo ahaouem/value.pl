@@ -1,13 +1,20 @@
 "use client";
 import { useState, useEffect } from "react";
-import sendSuggestionRequest from "@/lib/send-suggestion-request";
 
 export default function SuggestionBlock() {
   const [suggestions, setSuggestions] = useState([]);
   const [currentSuggestionIndex, setCurrentSuggestionIndex] = useState(0);
-
+  const sendRequest = async () => {
+    try {
+      const response = await fetch("/api/suggestion?period=week");
+      const data = await response.json();
+      return data.suggestions;
+    } catch (error) {
+      console.error(error);
+    }
+  };
   useEffect(() => {
-    sendSuggestionRequest().then((data) => setSuggestions(data));
+    sendRequest().then((data) => setSuggestions(data));
 
     const interval = setInterval(() => {
       setCurrentSuggestionIndex((prevIndex) =>
