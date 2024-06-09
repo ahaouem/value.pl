@@ -1,21 +1,25 @@
-import { db } from "@/server/db";
-import { ai } from "@/lib/ai";
-export default async function SuggestionBlock() {
-  // const suggestions: string[] = [
-  //   "Eat more fresh fruits and vegetables",
-  //   "Drink more water.",
-  //   "Try to work out at least 30 minutes a day",
-  //   "Try to hit 10 000 steps a day.",
-  //   "Get around 8-9 hours of good quality sleep.",
-  //   "Try to meditate for 10 minutes a day.",
-  //   "Try to get some sun every day.",
-  //   "Go out and spend some time in nature.",
-  // ];
-  // let randomSuggestion =
-  //   suggestions[Math.floor(Math.random() * suggestions.length)];
+"use client";
+import { useState, useEffect } from "react";
+import sendSuggestionRequest from "@/lib/send-suggestion-request";
 
+export default function SuggestionBlock() {
+  const [suggestions, setSuggestions] = useState([]);
+  const [currentSuggestionIndex, setCurrentSuggestionIndex] = useState(0);
 
-  const suggestion = await db.select({});
+  useEffect(() => {
+    sendSuggestionRequest().then((data) => setSuggestions(data));
+
+    const interval = setInterval(() => {
+      setCurrentSuggestionIndex((prevIndex) =>
+        suggestions.length > 0 ? (prevIndex + 1) % suggestions.length : 0,
+      );
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [suggestions.length]);
+
+  const randomSuggestion =
+    suggestions.length > 0 ? suggestions[currentSuggestionIndex] : "Loading...";
 
   return (
     <>
@@ -36,10 +40,10 @@ export default async function SuggestionBlock() {
         </svg>
         <section>
           <h2 className="text-balance text-left text-base/6 tracking-[-0.015em] text-violet-900 dark:text-violet-200">
-            Suggestion for you
+            Suggestion for you:
           </h2>
           <p className="mt-px text-left text-base font-semibold italic text-violet-950 dark:text-violet-50 md:text-xl lg:text-3xl">
-            {/* {randomSuggestion} */}
+            {randomSuggestion}
           </p>
         </section>
       </div>

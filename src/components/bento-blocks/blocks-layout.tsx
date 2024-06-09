@@ -1,7 +1,7 @@
 import { db } from "@/server/db";
 import { journalTopics, journals, topics } from "@/server/db/schema";
 import { auth } from "@clerk/nextjs/server";
-import { count, desc, eq, not } from "drizzle-orm";
+import { asc, count, desc, eq, not } from "drizzle-orm";
 import {
   GraphBlock,
   QuoteBlock,

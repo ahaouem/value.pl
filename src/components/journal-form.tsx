@@ -45,7 +45,7 @@ export default function JournalForm({ date }: { date: string }) {
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     setLoading(true);
-    const response = await fetch("/api/chat", {
+    const response = await fetch("/api/journal", {
       method: "POST",
       body: JSON.stringify({ ...data, date }),
     });

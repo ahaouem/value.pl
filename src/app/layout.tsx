@@ -4,7 +4,7 @@ import "@/styles/globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 
 export const metadata = {
-  title: "ur Value",
+  title: "Value",
   description: "Journal with us!",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };

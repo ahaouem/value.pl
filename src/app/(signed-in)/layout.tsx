@@ -9,7 +9,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 export const metadata = {
-  title: "ur Value",
+  title: "Value",
   description: "Journal with us!",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
