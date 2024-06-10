@@ -4,17 +4,39 @@ import { useState, useEffect } from "react";
 export default function SuggestionBlock() {
   const [suggestions, setSuggestions] = useState([]);
   const [currentSuggestionIndex, setCurrentSuggestionIndex] = useState(0);
+
   const sendRequest = async () => {
     try {
       const response = await fetch("/api/suggestion?period=week");
       const data = await response.json();
+      localStorage.setItem("suggestions", JSON.stringify(data.suggestions));
+      localStorage.setItem("suggestionsTimestamp", Date.now().toString());
       return data.suggestions;
     } catch (error) {
       console.error(error);
+      return [];
     }
   };
+
+  const loadSuggestions = async () => {
+    const cachedSuggestions = localStorage.getItem("suggestions");
+    const suggestionsTimestamp = localStorage.getItem("suggestionsTimestamp");
+    const cacheValidityDuration = 24 * 60 * 60 * 1000;
+
+    if (cachedSuggestions && suggestionsTimestamp) {
+      const ageOfCache = Date.now() - parseInt(suggestionsTimestamp, 10);
+      if (ageOfCache < cacheValidityDuration) {
+        setSuggestions(JSON.parse(cachedSuggestions));
+        return;
+      }
+    }
+    const data = await sendRequest();
+    
+    setSuggestions(data);
+  };
+
   useEffect(() => {
-    sendRequest().then((data) => setSuggestions(data));
+    loadSuggestions();
 
     const interval = setInterval(() => {
       setCurrentSuggestionIndex((prevIndex) =>

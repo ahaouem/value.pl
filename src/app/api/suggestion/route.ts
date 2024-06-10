@@ -100,7 +100,7 @@ export async function GET(req: Request) {
           role: "user",
         },
       ],
-      model: "gpt-4-turbo",
+      model: "gpt-4o",
     });
 
     const rawData = suggestionCompletion?.choices[0]?.message?.content;

@@ -18,7 +18,7 @@ export const client =
   createClient({
     url: env.DATABASE_URL,
     authToken: env.DATABASE_AUTH_TOKEN,
-    encryptionKey: env.DATABASE_ENCRYPTION_KEY,
+    // encryptionKey: env.DATABASE_ENCRYPTION_KEY,
   });
 if (env.NODE_ENV !== "production") globalForDb.client = client;
 
