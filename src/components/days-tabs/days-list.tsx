@@ -3,7 +3,7 @@
 import { Tabs, TabsList } from "@/components/ui/regular-tabs";
 import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons";
 import { useCallback, useEffect, useState } from "react";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { DatePicker } from "./date-picker";
 import { Day, DayType } from "./day";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";

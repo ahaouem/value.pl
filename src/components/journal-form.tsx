@@ -1,6 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import PsychoForm from "@/components/psycho-form";
 import {
   Form,
   FormControl,
@@ -57,6 +58,21 @@ export default function JournalForm({ date }: { date: string }) {
     }
     setLoading(false);
   };
+  const questions = [
+    "I have felt cheerful in good spirits.",
+    "I have felt calm and relaxed.",
+    "I have felt active and vigorous.",
+    "I woke up feeling fresh and rested.",
+    " My daily life has been filled with things that interest me.",
+  ];
+  const scale = [
+    "Not at all",
+    "Some of the time",
+    "Less than half of the time",
+    "More than half of the time",
+    "All of the time",
+  ];
+  const name = "WHO-5 Well-being Index";
 
   return (
     <Form {...form}>
@@ -84,6 +100,14 @@ export default function JournalForm({ date }: { date: string }) {
               </FormItem>
             )}
           />
+        </Card>
+        <Card>
+          <CardHeader>
+            <FormLabel className="text-center text-2xl">{name}</FormLabel>
+          </CardHeader>
+          <CardContent>
+            <PsychoForm questions={questions} scale={scale} />
+          </CardContent>
         </Card>
         <Card>
           <FormField
