@@ -25,6 +25,7 @@ import { Textarea } from "./ui/textarea";
 
 const formSchema = z.object({
   mood: z.number(),
+  psychoForm: z.record(z.string(), z.string()),
   dayDescription: z.string(),
 });
 
@@ -34,10 +35,27 @@ export default function JournalForm({ date }: { date: string }) {
 
   const router = useRouter();
 
+  const questions = [
+    "I have felt cheerful in good spirits.",
+    "I have felt calm and relaxed.",
+    "I have felt active and vigorous.",
+    "I woke up feeling fresh and rested.",
+    "My daily life has been filled with things that interest me.",
+  ];
+  const scale = [
+    "Not at all",
+    "Some of the time",
+    "Less than half of the time",
+    "More than half of the time",
+    "All of the time",
+  ];
+
+  const name = "WHO-5 Well-being Index";
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      mood: 3,
+      mood: 0,
+      psychoForm: Object.fromEntries(questions.map((q, _) => [q, ""])),
       dayDescription: "Today I am grateful for...",
     },
   });
@@ -46,6 +64,10 @@ export default function JournalForm({ date }: { date: string }) {
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     setLoading(true);
+    console.log(data);
+    Object.entries(data.psychoForm).forEach(([question, value]) => {
+      data.mood += parseInt(value) * 4;
+    });
     const response = await fetch("/api/journal", {
       method: "POST",
       body: JSON.stringify({ ...data, date }),
@@ -56,23 +78,9 @@ export default function JournalForm({ date }: { date: string }) {
     } else {
       toast.error("Failed to save journal entry");
     }
+    console.log(data);
     setLoading(false);
   };
-  const questions = [
-    "I have felt cheerful in good spirits.",
-    "I have felt calm and relaxed.",
-    "I have felt active and vigorous.",
-    "I woke up feeling fresh and rested.",
-    " My daily life has been filled with things that interest me.",
-  ];
-  const scale = [
-    "Not at all",
-    "Some of the time",
-    "Less than half of the time",
-    "More than half of the time",
-    "All of the time",
-  ];
-  const name = "WHO-5 Well-being Index";
 
   return (
     <Form {...form}>
@@ -82,32 +90,25 @@ export default function JournalForm({ date }: { date: string }) {
       >
         <Card>
           <FormField
-            name="mood"
+            name="psychoForm"
             render={({ field }) => (
-              <FormItem>
+              <>
                 <CardHeader>
-                  <FormLabel className="text-2xl">How do you feel?</FormLabel>
+                  <FormLabel className="text-2xl">{name}</FormLabel>
                 </CardHeader>
                 <CardContent>
                   <FormControl>
-                    <MoodPicker
-                      value={field.value}
-                      onChange={(value) => field.onChange(value)}
+                    <PsychoForm
+                      scale={scale}
+                      onChange={field.onChange}
+                      values={field.value}
                     />
                   </FormControl>
                 </CardContent>
                 <FormMessage />
-              </FormItem>
+              </>
             )}
           />
-        </Card>
-        <Card>
-          <CardHeader>
-            <FormLabel className="text-center text-2xl">{name}</FormLabel>
-          </CardHeader>
-          <CardContent>
-            <PsychoForm questions={questions} scale={scale} />
-          </CardContent>
         </Card>
         <Card>
           <FormField
