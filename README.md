@@ -1,6 +1,8 @@
 # Value - Journal App
 
 Value is a journaling application built with Next.js and TypeScript, focusing on mood tracking and personal growth.
+This is the app our team built up in 24h for the 2023 HackYeah Hackathon
+
 
 ## Technologies Used
 
